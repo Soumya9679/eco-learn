@@ -75,7 +75,7 @@ export default function SettingsPage() {
 
       <motion.div variants={staggerItem}>
         <Card variant="glass" padding="lg">
-          <h2 className="text-lg font-semibold text-slate-800 mb-6" style={{ fontFamily: "var(--font-jakarta)" }}>
+          <h2 className="text-lg font-semibold text-white mb-6" style={{ fontFamily: "var(--font-jakarta)" }}>
             Profile Information
           </h2>
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -131,7 +131,7 @@ export default function SettingsPage() {
                 <motion.span
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="text-sm text-emerald-600 font-medium"
+                  className="text-sm text-emerald-400 font-medium"
                 >
                   Changes saved successfully
                 </motion.span>
@@ -143,10 +143,10 @@ export default function SettingsPage() {
 
       <motion.div variants={staggerItem}>
         <Card variant="default" padding="lg">
-          <h2 className="text-lg font-semibold text-slate-800 mb-2" style={{ fontFamily: "var(--font-jakarta)" }}>
+          <h2 className="text-lg font-semibold text-white mb-2" style={{ fontFamily: "var(--font-jakarta)" }}>
             Account Security
           </h2>
-          <p className="text-sm text-slate-500 mb-4">
+          <p className="text-sm text-slate-400 mb-4">
             Password management is handled through Firebase Auth. To change your password, use the password reset feature.
           </p>
           <Button

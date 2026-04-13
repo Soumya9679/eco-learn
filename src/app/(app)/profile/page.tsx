@@ -11,6 +11,7 @@ import ProgressBar from "@/components/ui/ProgressBar";
 import Button from "@/components/ui/Button";
 import PageHeader from "@/components/ui/PageHeader";
 import { PageSkeleton } from "@/components/ui/Skeleton";
+import Image from "next/image";
 import {
   User,
   Leaf,
@@ -27,14 +28,14 @@ import {
 } from "lucide-react";
 
 interface Proof {
-  _id: string;
+  id: string;
   challengeTitle: string;
-  proofImageUrl: string;
+  imageUrl: string;
   createdAt: string;
 }
 
 interface Activity {
-  _id: string;
+  id: string;
   activityType: string;
   activityTitle: string;
   pointsEarned: number;
@@ -84,16 +85,16 @@ export default function ProfilePage() {
   if (loading || !user) return <PageSkeleton />;
 
   const statItems = [
-    { label: "Modules", value: user.progress.modulesCompleted, icon: BookOpen, color: "text-blue-500", bg: "bg-blue-50" },
-    { label: "Challenges", value: user.progress.challengesCompleted, icon: Target, color: "text-emerald-500", bg: "bg-emerald-50" },
-    { label: "Quizzes", value: user.progress.quizzesCompleted, icon: HelpCircle, color: "text-purple-500", bg: "bg-purple-50" },
-    { label: "Games", value: user.progress.gamesCompleted, icon: Gamepad2, color: "text-orange-500", bg: "bg-orange-50" },
+    { label: "Modules", value: user.progress.modulesCompleted, icon: BookOpen, color: "text-blue-400", bg: "rgba(59,130,246,0.1)" },
+    { label: "Challenges", value: user.progress.challengesCompleted, icon: Target, color: "text-emerald-400", bg: "rgba(16,185,129,0.1)" },
+    { label: "Quizzes", value: user.progress.quizzesCompleted, icon: HelpCircle, color: "text-purple-400", bg: "rgba(147,51,234,0.1)" },
+    { label: "Games", value: user.progress.gamesCompleted, icon: Gamepad2, color: "text-orange-400", bg: "rgba(249,115,22,0.1)" },
   ];
 
   const ecoStats = [
-    { label: "Water Saved", value: `${user.stats.waterSaved}L`, icon: Droplets, color: "text-blue-500" },
-    { label: "Waste Diverted", value: `${user.stats.wasteDiverted}kg`, icon: Trash2, color: "text-green-500" },
-    { label: "Trees Planted", value: user.stats.treesPlanted, icon: TreePine, color: "text-emerald-500" },
+    { label: "Water Saved", value: `${user.stats.waterSaved}L`, icon: Droplets, color: "text-blue-400" },
+    { label: "Waste Diverted", value: `${user.stats.wasteDiverted}kg`, icon: Trash2, color: "text-green-400" },
+    { label: "Trees Planted", value: user.stats.treesPlanted, icon: TreePine, color: "text-emerald-400" },
   ];
 
   return (
@@ -128,18 +129,21 @@ export default function ProfilePage() {
         </div>
       </motion.div>
 
-      {/* Progress Stats */}
+      {/* Progress Stats — Fixed for dark theme (#11) */}
       <motion.div variants={staggerItem}>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {statItems.map((s) => (
             <Card key={s.label} variant="glass" padding="md">
               <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 rounded-xl ${s.bg} flex items-center justify-center ${s.color}`}>
+                <div
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center ${s.color}`}
+                  style={{ background: s.bg }}
+                >
                   <s.icon size={20} />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-slate-800">{s.value}</p>
-                  <p className="text-xs text-slate-500">{s.label}</p>
+                  <p className="text-2xl font-bold text-white">{s.value}</p>
+                  <p className="text-xs text-slate-400">{s.label}</p>
                 </div>
               </div>
             </Card>
@@ -149,13 +153,13 @@ export default function ProfilePage() {
 
       {/* Eco Impact */}
       <motion.div variants={staggerItem}>
-        <h2 className="text-lg font-bold text-slate-800 mb-3" style={{ fontFamily: "var(--font-jakarta)" }}>Eco Impact</h2>
+        <h2 className="text-lg font-bold text-white mb-3" style={{ fontFamily: "var(--font-jakarta)" }}>Eco Impact</h2>
         <div className="grid grid-cols-3 gap-3">
           {ecoStats.map((s) => (
             <Card key={s.label} variant="default" padding="md" className="text-center">
               <s.icon size={24} className={`mx-auto mb-2 ${s.color}`} />
-              <p className="text-xl font-bold text-slate-800">{s.value}</p>
-              <p className="text-xs text-slate-500">{s.label}</p>
+              <p className="text-xl font-bold text-white">{s.value}</p>
+              <p className="text-xs text-slate-400">{s.label}</p>
             </Card>
           ))}
         </div>
@@ -164,7 +168,7 @@ export default function ProfilePage() {
       {/* Badges */}
       {user.badges.length > 0 && (
         <motion.div variants={staggerItem}>
-          <h2 className="text-lg font-bold text-slate-800 mb-3" style={{ fontFamily: "var(--font-jakarta)" }}>Badges</h2>
+          <h2 className="text-lg font-bold text-white mb-3" style={{ fontFamily: "var(--font-jakarta)" }}>Badges</h2>
           <div className="flex flex-wrap gap-2">
             {user.badges.map((b, i) => (
               <Badge key={i} variant="success" size="md">{b}</Badge>
@@ -176,20 +180,23 @@ export default function ProfilePage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Activity */}
         <motion.div variants={staggerItem}>
-          <h2 className="text-lg font-bold text-slate-800 mb-3" style={{ fontFamily: "var(--font-jakarta)" }}>Activity History</h2>
+          <h2 className="text-lg font-bold text-white mb-3" style={{ fontFamily: "var(--font-jakarta)" }}>Activity History</h2>
           <Card variant="default" padding="none">
             {activities.length === 0 ? (
-              <p className="p-6 text-center text-sm text-slate-400">No activity yet</p>
+              <p className="p-6 text-center text-sm text-slate-500">No activity yet</p>
             ) : (
-              <div className="divide-y divide-slate-50">
+              <div className="divide-y divide-white/5">
                 {activities.map((act) => (
-                  <div key={act._id} className="flex items-center gap-3 px-4 py-3">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
+                  <div key={act.id} className="flex items-center gap-3 px-4 py-3">
+                    <div
+                      className="w-8 h-8 rounded-lg flex items-center justify-center text-emerald-400"
+                      style={{ background: "rgba(16,185,129,0.1)" }}
+                    >
                       <Clock size={14} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-slate-700 truncate">{act.activityTitle}</p>
-                      <p className="text-xs text-slate-400">{new Date(act.createdAt).toLocaleDateString()}</p>
+                      <p className="text-sm font-medium text-slate-200 truncate">{act.activityTitle}</p>
+                      <p className="text-xs text-slate-500">{new Date(act.createdAt).toLocaleDateString()}</p>
                     </div>
                     {act.pointsEarned > 0 && <Badge variant="success">+{act.pointsEarned}</Badge>}
                   </div>
@@ -199,17 +206,23 @@ export default function ProfilePage() {
           </Card>
         </motion.div>
 
-        {/* Challenge Proofs */}
+        {/* Challenge Proofs — Using next/image (#23) */}
         <motion.div variants={staggerItem}>
-          <h2 className="text-lg font-bold text-slate-800 mb-3" style={{ fontFamily: "var(--font-jakarta)" }}>Challenge Proofs</h2>
+          <h2 className="text-lg font-bold text-white mb-3" style={{ fontFamily: "var(--font-jakarta)" }}>Challenge Proofs</h2>
           <Card variant="default" padding="none">
             {proofs.length === 0 ? (
-              <p className="p-6 text-center text-sm text-slate-400">No proofs submitted yet</p>
+              <p className="p-6 text-center text-sm text-slate-500">No proofs submitted yet</p>
             ) : (
               <div className="grid grid-cols-2 gap-2 p-3">
                 {proofs.map((p) => (
-                  <div key={p._id} className="relative rounded-xl overflow-hidden aspect-square group">
-                    <img src={p.proofImageUrl} alt={p.challengeTitle} className="w-full h-full object-cover" />
+                  <div key={p.id} className="relative rounded-xl overflow-hidden aspect-square group">
+                    <Image
+                      src={p.imageUrl}
+                      alt={p.challengeTitle}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-3 opacity-0 group-hover:opacity-100 transition-opacity">
                       <p className="text-xs text-white font-medium">{p.challengeTitle}</p>
                     </div>

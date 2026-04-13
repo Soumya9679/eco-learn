@@ -25,7 +25,7 @@ import {
 import Link from "next/link";
 
 interface Activity {
-  _id: string;
+  id: string;
   activityType: string;
   activityTitle: string;
   pointsEarned: number;
@@ -76,10 +76,10 @@ export default function DashboardPage() {
   ];
 
   const stats = [
-    { label: "EcoPoints", value: user.ecoPoints, icon: Leaf, color: "text-emerald-600", bg: "bg-emerald-50" },
-    { label: "Modules", value: user.progress.modulesCompleted, icon: BookOpen, color: "text-blue-600", bg: "bg-blue-50" },
-    { label: "Challenges", value: user.progress.challengesCompleted, icon: Target, color: "text-purple-600", bg: "bg-purple-50" },
-    { label: "Quizzes", value: user.progress.quizzesCompleted, icon: HelpCircle, color: "text-amber-600", bg: "bg-amber-50" },
+    { label: "EcoPoints", value: user.ecoPoints, icon: Leaf, color: "text-emerald-400", bg: "rgba(16,185,129,0.1)" },
+    { label: "Modules", value: user.progress.modulesCompleted, icon: BookOpen, color: "text-blue-400", bg: "rgba(59,130,246,0.1)" },
+    { label: "Challenges", value: user.progress.challengesCompleted, icon: Target, color: "text-purple-400", bg: "rgba(147,51,234,0.1)" },
+    { label: "Quizzes", value: user.progress.quizzesCompleted, icon: HelpCircle, color: "text-amber-400", bg: "rgba(245,158,11,0.1)" },
   ];
 
   const activityIcon: Record<string, React.ReactNode> = {
@@ -128,16 +128,16 @@ export default function DashboardPage() {
         </div>
       </motion.div>
 
-      {/* Stats Grid */}
+      {/* Stats Grid — Fixed for dark theme (#11) */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((s, i) => (
           <motion.div key={s.label} variants={staggerItem}>
             <Card variant="glass" padding="md" className="relative overflow-hidden">
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">{s.label}</p>
+                  <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">{s.label}</p>
                   <motion.p
-                    className="text-2xl sm:text-3xl font-bold text-slate-800 mt-1"
+                    className="text-2xl sm:text-3xl font-bold text-white mt-1"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.5 + i * 0.1 }}
@@ -145,7 +145,10 @@ export default function DashboardPage() {
                     {s.value}
                   </motion.p>
                 </div>
-                <div className={`w-10 h-10 rounded-xl ${s.bg} flex items-center justify-center ${s.color}`}>
+                <div
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center ${s.color}`}
+                  style={{ background: s.bg }}
+                >
                   <s.icon size={20} />
                 </div>
               </div>
@@ -156,7 +159,7 @@ export default function DashboardPage() {
 
       {/* Quick Actions */}
       <motion.div variants={staggerItem}>
-        <h2 className="text-lg font-bold text-slate-800 mb-4" style={{ fontFamily: "var(--font-jakarta)" }}>
+        <h2 className="text-lg font-bold text-white mb-4" style={{ fontFamily: "var(--font-jakarta)" }}>
           Quick Actions
         </h2>
         <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
@@ -166,7 +169,7 @@ export default function DashboardPage() {
                 <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${a.color} flex items-center justify-center text-white shadow-md`}>
                   <a.icon size={22} />
                 </div>
-                <span className="text-xs font-semibold text-slate-700">{a.label}</span>
+                <span className="text-xs font-semibold text-slate-300">{a.label}</span>
               </Card>
             </Link>
           ))}
@@ -176,24 +179,27 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Activity */}
         <motion.div variants={staggerItem}>
-          <h2 className="text-lg font-bold text-slate-800 mb-4" style={{ fontFamily: "var(--font-jakarta)" }}>
+          <h2 className="text-lg font-bold text-white mb-4" style={{ fontFamily: "var(--font-jakarta)" }}>
             Recent Activity
           </h2>
           <Card variant="default" padding="none">
             {activities.length === 0 ? (
-              <div className="p-8 text-center text-slate-400 text-sm">
+              <div className="p-8 text-center text-slate-500 text-sm">
                 No recent activity yet. Start learning!
               </div>
             ) : (
-              <div className="divide-y divide-slate-50">
+              <div className="divide-y divide-white/5">
                 {activities.map((act) => (
-                  <div key={act._id} className="flex items-center gap-3 p-4 hover:bg-slate-50/50 transition-colors">
-                    <div className="w-9 h-9 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
+                  <div key={act.id} className="flex items-center gap-3 p-4 hover:bg-white/5 transition-colors">
+                    <div
+                      className="w-9 h-9 rounded-lg flex items-center justify-center text-emerald-400"
+                      style={{ background: "rgba(16,185,129,0.1)" }}
+                    >
                       {activityIcon[act.activityType] || <Zap size={16} />}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-slate-700 truncate">{act.activityTitle}</p>
-                      <div className="flex items-center gap-2 text-xs text-slate-400">
+                      <p className="text-sm font-medium text-slate-200 truncate">{act.activityTitle}</p>
+                      <div className="flex items-center gap-2 text-xs text-slate-500">
                         <Clock size={12} />
                         {new Date(act.createdAt).toLocaleDateString()}
                       </div>
@@ -210,11 +216,11 @@ export default function DashboardPage() {
 
         {/* Achievements */}
         <motion.div variants={staggerItem}>
-          <h2 className="text-lg font-bold text-slate-800 mb-4" style={{ fontFamily: "var(--font-jakarta)" }}>
+          <h2 className="text-lg font-bold text-white mb-4" style={{ fontFamily: "var(--font-jakarta)" }}>
             Achievements
           </h2>
           <Card variant="default" padding="none">
-            <div className="divide-y divide-slate-50">
+            <div className="divide-y divide-white/5">
               {achievements.map((ach) => (
                 <div
                   key={ach.id}
@@ -223,8 +229,8 @@ export default function DashboardPage() {
                 >
                   <div className="text-2xl">{ach.icon}</div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-slate-700">{ach.title}</p>
-                    <p className="text-xs text-slate-400">{ach.description}</p>
+                    <p className="text-sm font-medium text-slate-200">{ach.title}</p>
+                    <p className="text-xs text-slate-500">{ach.description}</p>
                   </div>
                   {ach.earned ? (
                     <Badge variant="success">Earned</Badge>

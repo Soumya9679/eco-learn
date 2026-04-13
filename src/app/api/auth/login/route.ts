@@ -1,17 +1,20 @@
 export const dynamic = "force-dynamic";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/firebase";
+import { verifyToken, unauthorized } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
-  try {
-    const { uid } = await req.json();
+  // Verify Firebase ID token instead of trusting client-supplied UID
+  const payload = await verifyToken(req);
+  if (!payload) return unauthorized();
 
-    // Fetch user data from Firestore
-    const userDoc = await db.collection("users").doc(uid).get();
+  try {
+    // Fetch user data from Firestore using the verified UID
+    const userDoc = await db.collection("users").doc(payload.uid).get();
     if (!userDoc.exists) {
       return NextResponse.json(
-        { message: "Invalid credentials" },
-        { status: 400 }
+        { message: "User not found" },
+        { status: 404 }
       );
     }
 

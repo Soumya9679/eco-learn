@@ -89,7 +89,7 @@ export default function GamesPage() {
       return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-lg mx-auto space-y-6 text-center mt-12">
           <div className="text-6xl">🎉</div>
-          <h2 className="text-2xl font-bold text-slate-800">Game Complete!</h2>
+          <h2 className="text-2xl font-bold text-white">Game Complete!</h2>
           <p className="text-3xl font-bold text-emerald-600">{sortingScore}/{game.items!.length} correct</p>
           <Button onClick={resetGame}>Back to Games</Button>
         </motion.div>
@@ -103,7 +103,7 @@ export default function GamesPage() {
     return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-2xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-slate-800">{game.title}</h2>
+          <h2 className="text-lg font-bold text-white">{game.title}</h2>
           <Button variant="ghost" size="sm" onClick={resetGame}>Exit</Button>
         </div>
         <Card variant="glass" padding="lg" className="text-center space-y-6">
@@ -111,7 +111,7 @@ export default function GamesPage() {
           <motion.div key={sortingIdx} initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-5xl py-4">
             🗑️
           </motion.div>
-          <h3 className="text-xl font-bold text-slate-800">{item.name}</h3>
+          <h3 className="text-xl font-bold text-white">{item.name}</h3>
           <p className="text-sm text-slate-500">Which bin does this belong in?</p>
           <div className="grid grid-cols-2 gap-3">
             {game.bins!.map((bin) => (
@@ -140,7 +140,7 @@ export default function GamesPage() {
       return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-lg mx-auto space-y-6 text-center mt-12">
           <div className="text-6xl">💧</div>
-          <h2 className="text-2xl font-bold text-slate-800">Game Complete!</h2>
+          <h2 className="text-2xl font-bold text-white">Game Complete!</h2>
           <p className="text-3xl font-bold text-blue-600">{waterScore} points</p>
           <Button onClick={resetGame}>Back to Games</Button>
         </motion.div>
@@ -154,11 +154,11 @@ export default function GamesPage() {
     return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-2xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-slate-800">{game.title}</h2>
+          <h2 className="text-lg font-bold text-white">{game.title}</h2>
           <Button variant="ghost" size="sm" onClick={resetGame}>Exit</Button>
         </div>
         <Card variant="glass" padding="lg" className="space-y-6">
-          <p className="text-base font-semibold text-slate-800">{s.situation}</p>
+          <p className="text-base font-semibold text-white">{s.situation}</p>
           <div className="space-y-3">
             {s.options.map((opt, i) => (
               <Button
@@ -186,7 +186,7 @@ export default function GamesPage() {
       return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-lg mx-auto space-y-6 text-center mt-12">
           <div className="text-6xl">🌳</div>
-          <h2 className="text-2xl font-bold text-slate-800">Forest Grown!</h2>
+          <h2 className="text-2xl font-bold text-white">Forest Grown!</h2>
           <p className="text-3xl font-bold text-emerald-600">{treeScore}/{game.questions!.length} trees</p>
           <Button onClick={resetGame}>Back to Games</Button>
         </motion.div>
@@ -200,11 +200,11 @@ export default function GamesPage() {
     return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-2xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-slate-800">{game.title}</h2>
+          <h2 className="text-lg font-bold text-white">{game.title}</h2>
           <Button variant="ghost" size="sm" onClick={resetGame}>Exit</Button>
         </div>
         <Card variant="glass" padding="lg" className="space-y-6">
-          <p className="text-base font-semibold text-slate-800">{tq.q}</p>
+          <p className="text-base font-semibold text-white">{tq.q}</p>
           <div className="space-y-3">
             {tq.options.map((opt, i) => (
               <Button
@@ -238,7 +238,7 @@ export default function GamesPage() {
                 <game.icon size={48} className="text-white/90" />
               </div>
               <div className="p-5 space-y-3">
-                <h3 className="text-lg font-semibold text-slate-800">{game.title}</h3>
+                <h3 className="text-lg font-semibold text-white">{game.title}</h3>
                 <p className="text-sm text-slate-500">{game.description}</p>
                 <Button size="sm" icon={<Play size={16} />}>Play Now</Button>
               </div>

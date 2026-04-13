@@ -1,7 +1,6 @@
 export const dynamic = "force-dynamic";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/firebase";
-import { uploadToCloudinary } from "@/lib/cloudinary";
 import { verifyToken, unauthorized } from "@/lib/auth";
 
 // GET /api/forum
@@ -10,6 +9,9 @@ export async function GET(req: NextRequest) {
   if (!payload) return unauthorized();
 
   try {
+    const { searchParams } = new URL(req.url);
+    const query = searchParams.get("q")?.toLowerCase() || "";
+
     const snapshot = await db
       .collection("posts")
       .orderBy("promoteCount", "desc")
@@ -17,10 +19,10 @@ export async function GET(req: NextRequest) {
       .limit(50)
       .get();
 
-    const posts = snapshot.docs.map((doc) => {
+    let posts: Record<string, unknown>[] = snapshot.docs.map((doc) => {
       const data = doc.data();
       return {
-        _id: doc.id,
+        id: doc.id,
         ...data,
         author: {
           name: data.authorName,
@@ -29,6 +31,18 @@ export async function GET(req: NextRequest) {
         isPromotedByMe: (data.promoters || []).includes(payload.uid),
       };
     });
+
+    // Server-side search filtering (#28)
+    if (query) {
+      posts = posts.filter(
+        (p) => {
+          const desc = String(p.description || "").toLowerCase();
+          const author = String(p.authorName || "").toLowerCase();
+          const place = String(p.place || "").toLowerCase();
+          return desc.includes(query) || author.includes(query) || place.includes(query);
+        }
+      );
+    }
 
     return NextResponse.json(posts);
   } catch {
@@ -59,6 +73,7 @@ export async function POST(req: NextRequest) {
     const userDoc = await db.collection("users").doc(payload.uid).get();
     const userData = userDoc.data();
 
+    const { uploadToCloudinary } = await import("@/lib/cloudinary");
     const buffer = Buffer.from(await file.arrayBuffer());
     const result = await uploadToCloudinary(buffer, "eco-forum", {
       resource_type: "auto",
@@ -82,7 +97,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       {
-        _id: postRef.id,
+        id: postRef.id,
         ...postData,
         author: {
           name: postData.authorName,

@@ -28,7 +28,7 @@ import {
 } from "lucide-react";
 
 interface AdminUser {
-  _id: string;
+  id: string;
   name: string;
   email: string;
   role: string;
@@ -81,9 +81,10 @@ export default function AdminPage() {
 
   const fetchData = async () => {
     const headers = await getHeaders();
+    // Uses new split endpoints (#5)
     const [statsRes, usersRes] = await Promise.all([
-      fetch("/api/admin?action=stats", { headers }),
-      fetch("/api/admin?action=users", { headers }),
+      fetch("/api/admin/stats", { headers }),
+      fetch("/api/admin/users", { headers }),
     ]);
     if (statsRes.ok) setStats(await statsRes.json());
     if (usersRes.ok) setUsers(await usersRes.json());
@@ -95,10 +96,10 @@ export default function AdminPage() {
     setCreating(true);
     setMessage("");
     const headers = await getHeaders();
-    const res = await fetch("/api/admin", {
+    const res = await fetch("/api/admin/users", {
       method: "POST",
       headers,
-      body: JSON.stringify({ action: "create-admin", ...newAdmin }),
+      body: JSON.stringify(newAdmin),
     });
     const data = await res.json();
     setMessage(data.message);
@@ -113,17 +114,17 @@ export default function AdminPage() {
   const handleDeleteUser = async (id: string) => {
     if (!confirm("Delete this user and all their posts?")) return;
     const headers = await getHeaders();
-    await fetch(`/api/admin?resource=users&id=${id}`, { method: "DELETE", headers });
+    await fetch(`/api/admin/users?id=${id}`, { method: "DELETE", headers });
     fetchData();
   };
 
   const handleUpdateUser = async () => {
     if (!editUser) return;
     const headers = await getHeaders();
-    await fetch("/api/admin", {
+    await fetch("/api/admin/users", {
       method: "PUT",
       headers,
-      body: JSON.stringify({ resource: "users", id: editUser._id, ...editUser }),
+      body: JSON.stringify(editUser),
     });
     setEditUser(null);
     fetchData();
@@ -131,10 +132,9 @@ export default function AdminPage() {
 
   const handleInitChallenges = async () => {
     const headers = await getHeaders();
-    const res = await fetch("/api/admin", {
+    const res = await fetch("/api/admin/init-challenges", {
       method: "POST",
       headers,
-      body: JSON.stringify({ action: "initialize-challenges" }),
     });
     const data = await res.json();
     setMessage(data.message);
@@ -146,9 +146,9 @@ export default function AdminPage() {
     return (
       <div className="flex items-center justify-center py-20">
         <Card variant="default" padding="lg" className="text-center max-w-sm">
-          <Shield size={48} className="mx-auto mb-4 text-slate-300" />
-          <h2 className="text-lg font-bold text-slate-700">Access Denied</h2>
-          <p className="text-sm text-slate-500 mt-1">You need admin privileges to access this page.</p>
+          <Shield size={48} className="mx-auto mb-4 text-slate-500" />
+          <h2 className="text-lg font-bold text-white">Access Denied</h2>
+          <p className="text-sm text-slate-400 mt-1">You need admin privileges to access this page.</p>
         </Card>
       </div>
     );
@@ -170,7 +170,12 @@ export default function AdminPage() {
       />
 
       {message && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="px-4 py-3 rounded-xl bg-emerald-50 text-emerald-700 text-sm font-medium">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="px-4 py-3 rounded-xl text-sm font-medium"
+          style={{ background: "rgba(16,185,129,0.1)", color: "#34d399", border: "1px solid rgba(16,185,129,0.2)" }}
+        >
           {message}
         </motion.div>
       )}
@@ -179,24 +184,27 @@ export default function AdminPage() {
         <Tabs tabs={adminTabs} activeTab={tab} onTabChange={setTab} />
       </motion.div>
 
-      {/* Overview Tab */}
+      {/* Overview Tab — Fixed theme (#11) */}
       {tab === "overview" && stats && (
         <motion.div variants={staggerItem} className="space-y-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { label: "Total Users", value: stats.totalUsers, change: stats.usersChange, icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
-              { label: "Faculty", value: stats.totalFaculty, change: stats.facultyChange, icon: Shield, color: "text-purple-600", bg: "bg-purple-50" },
-              { label: "Active Users", value: stats.activeUsers, change: stats.activityChange, icon: BarChart3, color: "text-emerald-600", bg: "bg-emerald-50" },
-              { label: "Total Content", value: stats.totalContent, change: stats.contentChange, icon: BookOpen, color: "text-amber-600", bg: "bg-amber-50" },
+              { label: "Total Users", value: stats.totalUsers, change: stats.usersChange, icon: Users, color: "text-blue-400", bg: "rgba(59,130,246,0.1)" },
+              { label: "Faculty", value: stats.totalFaculty, change: stats.facultyChange, icon: Shield, color: "text-purple-400", bg: "rgba(147,51,234,0.1)" },
+              { label: "Active Users", value: stats.activeUsers, change: stats.activityChange, icon: BarChart3, color: "text-emerald-400", bg: "rgba(16,185,129,0.1)" },
+              { label: "Total Content", value: stats.totalContent, change: stats.contentChange, icon: BookOpen, color: "text-amber-400", bg: "rgba(245,158,11,0.1)" },
             ].map((s) => (
               <Card key={s.label} variant="glass" padding="md">
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">{s.label}</p>
-                    <p className="text-2xl font-bold text-slate-800 mt-1">{s.value}</p>
-                    <p className="text-xs text-emerald-600 mt-1">{s.change}</p>
+                    <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">{s.label}</p>
+                    <p className="text-2xl font-bold text-white mt-1">{s.value}</p>
+                    <p className="text-xs text-emerald-400 mt-1">{s.change}</p>
                   </div>
-                  <div className={`w-10 h-10 rounded-xl ${s.bg} flex items-center justify-center ${s.color}`}>
+                  <div
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center ${s.color}`}
+                    style={{ background: s.bg }}
+                  >
                     <s.icon size={20} />
                   </div>
                 </div>
@@ -215,7 +223,7 @@ export default function AdminPage() {
         <motion.div variants={staggerItem} className="space-y-4">
           {showCreateAdmin && (
             <Card variant="glass" padding="lg">
-              <h3 className="text-base font-semibold text-slate-800 mb-4">Create Faculty Account</h3>
+              <h3 className="text-base font-semibold text-white mb-4">Create Faculty Account</h3>
               <form onSubmit={handleCreateAdmin} className="space-y-3">
                 <div className="grid grid-cols-2 gap-3">
                   <Input label="Name" value={newAdmin.name} onChange={(e) => setNewAdmin({ ...newAdmin, name: e.target.value })} required />
@@ -234,7 +242,7 @@ export default function AdminPage() {
           {editUser && (
             <Card variant="glass" padding="lg">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-base font-semibold text-slate-800">Edit User</h3>
+                <h3 className="text-base font-semibold text-white">Edit User</h3>
                 <Button variant="ghost" size="sm" onClick={() => setEditUser(null)}><X size={16} /></Button>
               </div>
               <div className="space-y-3">
@@ -244,16 +252,26 @@ export default function AdminPage() {
                 </div>
                 <div className="grid grid-cols-3 gap-3">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Role</label>
-                    <select value={editUser.role} onChange={(e) => setEditUser({ ...editUser, role: e.target.value })} className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500">
+                    <label className="block text-sm font-medium text-slate-300 mb-1.5">Role</label>
+                    <select
+                      value={editUser.role}
+                      onChange={(e) => setEditUser({ ...editUser, role: e.target.value })}
+                      className="w-full px-4 py-2.5 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
+                      style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
+                    >
                       <option value="user">User</option>
                       <option value="admin">Admin</option>
                       <option value="superadmin">Super Admin</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Status</label>
-                    <select value={editUser.status} onChange={(e) => setEditUser({ ...editUser, status: e.target.value })} className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500">
+                    <label className="block text-sm font-medium text-slate-300 mb-1.5">Status</label>
+                    <select
+                      value={editUser.status}
+                      onChange={(e) => setEditUser({ ...editUser, status: e.target.value })}
+                      className="w-full px-4 py-2.5 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
+                      style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
+                    >
                       <option value="active">Active</option>
                       <option value="suspended">Suspended</option>
                     </select>
@@ -266,13 +284,13 @@ export default function AdminPage() {
           )}
 
           <Card variant="default" padding="none">
-            <div className="divide-y divide-slate-50">
+            <div className="divide-y divide-white/5">
               {users.map((u) => (
-                <div key={u._id} className="flex items-center gap-3 px-5 py-3 hover:bg-slate-50/50 transition-colors">
+                <div key={u.id} className="flex items-center gap-3 px-5 py-3 hover:bg-white/5 transition-colors">
                   <Avatar src={u.profilePicture} name={u.name} size="sm" />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-slate-700 truncate">{u.name}</p>
-                    <p className="text-xs text-slate-400">{u.email}</p>
+                    <p className="text-sm font-medium text-slate-200 truncate">{u.name}</p>
+                    <p className="text-xs text-slate-500">{u.email}</p>
                   </div>
                   <Badge
                     variant={u.role === "superadmin" ? "purple" : u.role === "admin" ? "info" : "default"}
@@ -283,10 +301,10 @@ export default function AdminPage() {
                   <div className="flex gap-1">
                     {isSuperAdmin && (
                       <>
-                        <button onClick={() => setEditUser(u)} className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+                        <button onClick={() => setEditUser(u)} className="p-1.5 rounded-lg hover:bg-white/10 text-slate-500 hover:text-slate-300 transition-colors cursor-pointer">
                           <Edit size={16} />
                         </button>
-                        <button onClick={() => handleDeleteUser(u._id)} className="p-1.5 rounded-lg hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors cursor-pointer">
+                        <button onClick={() => handleDeleteUser(u.id)} className="p-1.5 rounded-lg hover:bg-red-500/10 text-slate-500 hover:text-red-400 transition-colors cursor-pointer">
                           <Trash2 size={16} />
                         </button>
                       </>
@@ -303,9 +321,9 @@ export default function AdminPage() {
       {tab === "content" && (
         <motion.div variants={staggerItem}>
           <Card variant="glass" padding="lg" className="text-center space-y-4">
-            <BookOpen size={48} className="mx-auto text-slate-300" />
-            <h3 className="text-lg font-semibold text-slate-700">Content Management</h3>
-            <p className="text-sm text-slate-500 max-w-md mx-auto">
+            <BookOpen size={48} className="mx-auto text-slate-500" />
+            <h3 className="text-lg font-semibold text-white">Content Management</h3>
+            <p className="text-sm text-slate-400 max-w-md mx-auto">
               Manage modules, quizzes, and challenges through the API. Full content management UI coming soon.
             </p>
             <Button variant="secondary" onClick={handleInitChallenges} icon={<Target size={16} />}>

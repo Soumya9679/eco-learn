@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 import { NextRequest, NextResponse } from "next/server";
 import { db, getFieldValue } from "@/lib/firebase";
 import { verifyToken, unauthorized } from "@/lib/auth";
-
+import { checkAndGrantBadges } from "@/lib/badges";
 
 // POST /api/user/activity
 export async function POST(req: NextRequest) {
@@ -20,13 +20,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Validate points
+    const safePoints = Math.max(0, Math.min(200, Math.floor(pointsEarned || 0)));
+
     // Create activity document
     const activityData = {
       userId: payload.uid,
       activityType,
       activityId,
       activityTitle,
-      pointsEarned: pointsEarned || 0,
+      pointsEarned: safePoints,
       score: score ?? null,
       createdAt: new Date().toISOString(),
     };
@@ -38,16 +41,19 @@ export async function POST(req: NextRequest) {
       .collection("users")
       .doc(payload.uid)
       .update({
-        ecoPoints: getFieldValue().increment(pointsEarned || 0),
+        ecoPoints: getFieldValue().increment(safePoints),
         [progressField]: getFieldValue().increment(1),
       });
+
+    // Check and grant badges (#26)
+    await checkAndGrantBadges(payload.uid);
 
     const updatedUser = await db.collection("users").doc(payload.uid).get();
 
     return NextResponse.json({
       message: "Activity recorded successfully",
       activity: { id: activityRef.id, ...activityData },
-      user: { _id: updatedUser.id, ...updatedUser.data() },
+      user: { id: updatedUser.id, ...updatedUser.data() },
     });
   } catch {
     return NextResponse.json({ message: "Server error" }, { status: 500 });

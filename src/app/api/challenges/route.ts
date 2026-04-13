@@ -1,21 +1,37 @@
-export const dynamic = "force-dynamic";
+// Challenges listing — cacheable (#12)
+export const revalidate = 300; // Cache for 5 minutes
+
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/firebase";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 import { verifyToken, unauthorized } from "@/lib/auth";
 
-// GET /api/challenges
-export async function GET() {
+// GET /api/challenges?q=searchterm
+export async function GET(req: NextRequest) {
   try {
+    const { searchParams } = new URL(req.url);
+    const query = searchParams.get("q")?.toLowerCase() || "";
+
     const snapshot = await db
       .collection("challenges")
       .orderBy("category")
       .orderBy("createdAt", "desc")
       .get();
-    const challenges = snapshot.docs.map((doc) => ({
+    let challenges: Record<string, unknown>[] = snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
+
+    // Server-side search filtering (#28)
+    if (query) {
+      challenges = challenges.filter(
+        (c) =>
+          (c.title as string)?.toLowerCase().includes(query) ||
+          (c.description as string)?.toLowerCase().includes(query) ||
+          (c.category as string)?.toLowerCase().includes(query)
+      );
+    }
+
     return NextResponse.json(challenges);
   } catch {
     return NextResponse.json({ message: "Server error" }, { status: 500 });

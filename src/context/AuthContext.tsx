@@ -10,27 +10,11 @@ import {
   type User as FirebaseUser,
 } from "firebase/auth";
 import { auth } from "@/lib/firebase-client";
+import type { UserDoc } from "@/types";
 
-interface UserData {
-  _id: string;
-  name: string;
-  email: string;
-  mobile?: string;
-  school?: string;
-  state?: string;
-  country?: string;
-  profilePicture?: string;
-  role: string;
-  status: string;
-  ecoPoints: number;
-  badges: string[];
-  stats: { waterSaved: number; wasteDiverted: number; treesPlanted: number };
-  progress: {
-    modulesCompleted: number;
-    challengesCompleted: number;
-    quizzesCompleted: number;
-    gamesCompleted: number;
-  };
+// Extend UserDoc with the id field from Firestore
+export interface UserData extends UserDoc {
+  id: string;
 }
 
 interface AuthContextType {
@@ -126,19 +110,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       password
     );
 
-    // Create user document in Firestore
+    // Get the token from the newly created user
+    const token = await credential.user.getIdToken();
+
+    // Create user document in Firestore — now authenticated via token
     await fetch("/api/auth/register", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
-        uid: credential.user.uid,
         email,
         name,
         mobile,
       }),
     });
 
-    const token = await credential.user.getIdToken();
     const res = await fetch("/api/user/profile", {
       headers: { Authorization: `Bearer ${token}` },
     });

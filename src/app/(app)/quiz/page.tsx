@@ -87,11 +87,11 @@ export default function QuizPage() {
           <Card variant="glass" padding="lg" className="text-center space-y-6">
             <div className="text-6xl">{score >= 80 ? "🎉" : score >= 50 ? "👍" : "📚"}</div>
             <div>
-              <h2 className="text-2xl font-bold text-slate-800">Quiz Complete!</h2>
+              <h2 className="text-2xl font-bold text-white">Quiz Complete!</h2>
               <p className="text-slate-500 mt-1">{activeQuiz.title}</p>
             </div>
-            <div className="text-5xl font-bold text-emerald-600">{score}%</div>
-            <p className="text-slate-600">{correct}/{total} correct • +{correct * 10} EcoPoints</p>
+            <div className="text-5xl font-bold text-emerald-400">{score}%</div>
+            <p className="text-slate-400">{correct}/{total} correct • +{correct * 10} EcoPoints</p>
             <div className="flex gap-3 justify-center">
               <Button variant="secondary" onClick={() => { setActiveQuiz(null); setShowResult(false); }} icon={<X size={16} />}>Close</Button>
               <Button onClick={() => { setQIdx(0); setShowResult(false); setAnswers(new Array(total).fill(null)); }} icon={<RotateCcw size={16} />}>Retry</Button>
@@ -100,15 +100,15 @@ export default function QuizPage() {
 
           {/* Review Answers */}
           <div className="space-y-3">
-            <h3 className="text-lg font-semibold text-slate-700">Review</h3>
+            <h3 className="text-lg font-semibold text-slate-200">Review</h3>
             {activeQuiz.questions.map((q, i) => (
               <Card key={i} variant="default" padding="md">
-                <p className="text-sm font-medium text-slate-800 mb-2">{q.question}</p>
+                <p className="text-sm font-medium text-white mb-2">{q.question}</p>
                 <div className="space-y-1">
                   {q.choices.map((c, ci) => (
-                    <div key={ci} className={`px-3 py-2 rounded-lg text-sm ${ci === q.correctAnswer ? "bg-emerald-50 text-emerald-700 font-medium" :
-                        ci === answers[i] && ci !== q.correctAnswer ? "bg-red-50 text-red-600" :
-                          "text-slate-500"
+                    <div key={ci} className={`px-3 py-2 rounded-lg text-sm ${ci === q.correctAnswer ? "bg-emerald-500/10 text-emerald-400 font-medium" :
+                        ci === answers[i] && ci !== q.correctAnswer ? "bg-red-500/10 text-red-400" :
+                          "text-slate-400"
                       }`}>
                       {ci === q.correctAnswer && "✅ "}{ci === answers[i] && ci !== q.correctAnswer && "❌ "}{c}
                     </div>
@@ -125,7 +125,7 @@ export default function QuizPage() {
     return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 max-w-2xl mx-auto">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-slate-800">{activeQuiz.title}</h2>
+          <h2 className="text-lg font-bold text-white">{activeQuiz.title}</h2>
           <Button variant="ghost" size="sm" onClick={() => setActiveQuiz(null)}>
             <X size={16} /> Exit
           </Button>
@@ -139,7 +139,7 @@ export default function QuizPage() {
         </div>
 
         <Card variant="glass" padding="lg" className="space-y-4">
-          <p className="text-base font-semibold text-slate-800">Q{qIdx + 1}. {q.question}</p>
+          <p className="text-base font-semibold text-white">Q{qIdx + 1}. {q.question}</p>
           <div className="space-y-2">
             {q.choices.map((c, ci) => (
               <motion.button
@@ -147,8 +147,8 @@ export default function QuizPage() {
                 whileTap={{ scale: 0.98 }}
                 onClick={() => { const a = [...answers]; a[qIdx] = ci; setAnswers(a); }}
                 className={`w-full text-left px-4 py-3 rounded-xl border transition-all cursor-pointer ${answers[qIdx] === ci
-                    ? "border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm"
-                    : "border-slate-200 hover:border-slate-300 text-slate-700 hover:bg-slate-50"
+                    ? "border-emerald-500 bg-emerald-500/10 text-emerald-400 shadow-sm"
+                    : "border-white/10 hover:border-white/20 text-slate-300 hover:bg-white/5"
                   }`}
               >
                 {c}
@@ -185,7 +185,7 @@ export default function QuizPage() {
             <Card variant="glass" padding="none" className="overflow-hidden cursor-pointer" onClick={() => startQuiz(quiz)}>
               <div className="h-2 bg-gradient-to-r from-purple-400 to-purple-600" />
               <div className="p-5 space-y-3">
-                <h3 className="text-base font-semibold text-slate-800">{quiz.title}</h3>
+                <h3 className="text-base font-semibold text-white">{quiz.title}</h3>
                 <p className="text-sm text-slate-500 line-clamp-2">{quiz.description}</p>
                 <Badge variant="purple">{quiz.category}</Badge>
               </div>

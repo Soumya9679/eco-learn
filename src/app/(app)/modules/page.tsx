@@ -113,7 +113,7 @@ export default function ModulesPage() {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-slate-500 mb-1">{activeModule.category}</p>
-            <h1 className="text-xl font-bold text-slate-800">{activeModule.title}</h1>
+            <h1 className="text-xl font-bold text-white">{activeModule.title}</h1>
           </div>
           <Button variant="ghost" onClick={() => { setActiveModule(null); setLessonIdx(0); }}>
             <X size={18} /> Close
@@ -148,7 +148,7 @@ export default function ModulesPage() {
 
         {/* Lesson Content */}
         <Card variant="default" padding="lg">
-          <h3 className="text-lg font-semibold text-slate-800 mb-4">{lesson.title}</h3>
+          <h3 className="text-lg font-semibold text-white mb-4">{lesson.title}</h3>
 
           {lesson.type === "learn_video" && lesson.videoUrl && (
             <div className="aspect-video rounded-xl overflow-hidden bg-slate-900">
@@ -157,14 +157,14 @@ export default function ModulesPage() {
           )}
 
           {lesson.type === "learn_document" && lesson.content && (
-            <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed whitespace-pre-line">
+            <div className="prose prose-slate max-w-none text-slate-300 leading-relaxed whitespace-pre-line">
               {lesson.content}
             </div>
           )}
 
           {(lesson.type === "quiz" || lesson.type === "interact") && lesson.question && (
             <div className="space-y-4">
-              <p className="text-slate-700 font-medium">{lesson.question}</p>
+              <p className="text-slate-300 font-medium">{lesson.question}</p>
               <div className="space-y-2">
                 {lesson.choices?.map((c, i) => (
                   <button
@@ -172,7 +172,7 @@ export default function ModulesPage() {
                     onClick={() => { setQuizAnswer(i); setQuizFeedback(""); }}
                     className={`w-full text-left px-4 py-3 rounded-xl border transition-all cursor-pointer ${quizAnswer === i
                         ? "border-emerald-500 bg-emerald-50 text-emerald-700"
-                        : "border-slate-200 hover:border-slate-300 text-slate-700"
+                        : "border-white/10 hover:border-white/20 text-slate-300"
                       }`}
                   >
                     {c}
@@ -223,7 +223,7 @@ export default function ModulesPage() {
             placeholder="Search modules..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500"
           />
         </div>
         <div className="flex gap-2 overflow-x-auto pb-1">
@@ -233,7 +233,7 @@ export default function ModulesPage() {
               onClick={() => setCategory(cat)}
               className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all cursor-pointer ${category === cat
                   ? "bg-emerald-500 text-white shadow-md"
-                  : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
+                  : "bg-white/5 text-slate-400 hover:bg-white/5 border border-white/10"
                 }`}
             >
               {cat}
@@ -250,7 +250,7 @@ export default function ModulesPage() {
               <div className="h-2 bg-gradient-to-r from-emerald-400 to-teal-400" />
               <div className="p-5 space-y-3">
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="text-base font-semibold text-slate-800">{mod.title}</h3>
+                  <h3 className="text-base font-semibold text-white">{mod.title}</h3>
                   <Badge variant={difficultyColor[mod.difficulty] || "default"}>{mod.difficulty}</Badge>
                 </div>
                 <p className="text-sm text-slate-500 line-clamp-2">{mod.description}</p>

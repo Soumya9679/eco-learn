@@ -88,7 +88,7 @@ export default function ChallengesPage() {
             onClick={() => setCategory(cat)}
             className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all cursor-pointer ${category === cat
                 ? "bg-emerald-500 text-white shadow-md"
-                : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
+                : "bg-white/5 text-slate-400 hover:bg-white/5 border border-white/10"
               }`}
           >
             {cat}
@@ -116,7 +116,7 @@ export default function ChallengesPage() {
                 <div className="text-3xl">{categoryIcons[ch.category] || "🌍"}</div>
                 <div className="flex-1 space-y-2">
                   <div className="flex items-start justify-between gap-2">
-                    <h3 className="text-base font-semibold text-slate-800">{ch.title}</h3>
+                    <h3 className="text-base font-semibold text-white">{ch.title}</h3>
                     <Badge variant="success">
                       <Leaf size={12} className="mr-1" />
                       {ch.points} pts

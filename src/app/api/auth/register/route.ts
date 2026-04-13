@@ -1,10 +1,28 @@
 export const dynamic = "force-dynamic";
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/firebase";
+import { db, adminAuth } from "@/lib/firebase";
 
 export async function POST(req: NextRequest) {
   try {
-    const { uid, email, name, mobile } = await req.json();
+    // Verify Firebase ID token to get the real UID
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+    const token = authHeader.split(" ")[1];
+    if (!token) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    let decoded;
+    try {
+      decoded = await adminAuth.verifyIdToken(token);
+    } catch {
+      return NextResponse.json({ message: "Invalid token" }, { status: 401 });
+    }
+
+    const uid = decoded.uid;
+    const { email, name, mobile } = await req.json();
 
     // Check if user already exists in Firestore
     const userDoc = await db.collection("users").doc(uid).get();
@@ -21,7 +39,7 @@ export async function POST(req: NextRequest) {
       .doc(uid)
       .set({
         name,
-        email,
+        email: email || decoded.email || "",
         mobile: mobile || "",
         school: "",
         state: "",

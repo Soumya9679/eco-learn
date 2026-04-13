@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
     if (!userDoc.exists)
       return NextResponse.json({ message: "User not found" }, { status: 404 });
 
-    return NextResponse.json({ _id: userDoc.id, ...userDoc.data() });
+    return NextResponse.json({ id: userDoc.id, ...userDoc.data() });
   } catch {
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
@@ -25,7 +25,7 @@ export async function PUT(req: NextRequest) {
   if (!payload) return unauthorized();
 
   try {
-    const { name, email, school } = await req.json();
+    const { name, email, school, mobile, state, country } = await req.json();
     if (!name || !email) {
       return NextResponse.json(
         { message: "Name and email are required." },
@@ -37,6 +37,9 @@ export async function PUT(req: NextRequest) {
       name,
       email,
       school: school || "",
+      mobile: mobile || "",
+      state: state || "",
+      country: country || "",
       updatedAt: new Date().toISOString(),
     });
 
@@ -44,7 +47,7 @@ export async function PUT(req: NextRequest) {
     if (!updatedDoc.exists)
       return NextResponse.json({ message: "User not found." }, { status: 404 });
 
-    return NextResponse.json({ _id: updatedDoc.id, ...updatedDoc.data() });
+    return NextResponse.json({ id: updatedDoc.id, ...updatedDoc.data() });
   } catch {
     return NextResponse.json(
       { message: "Server error while updating profile." },

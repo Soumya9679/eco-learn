@@ -11,6 +11,7 @@ import Avatar from "@/components/ui/Avatar";
 import PageHeader from "@/components/ui/PageHeader";
 import { PageSkeleton } from "@/components/ui/Skeleton";
 import EmptyState from "@/components/ui/EmptyState";
+import Image from "next/image";
 import {
   MessageSquare,
   Send,
@@ -18,18 +19,23 @@ import {
   Image as ImageIcon,
   Clock,
   X,
+  Search,
 } from "lucide-react";
 
 interface Post {
-  _id: string;
+  id: string;
   title: string;
+  description: string;
   content: string;
+  place: string;
   authorId: string;
   authorName: string;
   authorPicture?: string;
+  mediaUrl?: string;
   image?: string;
   promoteCount: number;
   promoters: string[];
+  isPromotedByMe: boolean;
   createdAt: string;
 }
 
@@ -38,32 +44,42 @@ export default function ForumPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreate, setShowCreate] = useState(false);
-  const [newTitle, setNewTitle] = useState("");
-  const [newContent, setNewContent] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [newDescription, setNewDescription] = useState("");
+  const [newPlace, setNewPlace] = useState("");
   const [newImage, setNewImage] = useState<File | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [firebaseUser]);
 
-  const fetchPosts = async () => {
-    const res = await fetch("/api/forum");
+  const fetchPosts = async (query?: string) => {
+    if (!firebaseUser) return;
+    const token = await firebaseUser.getIdToken();
+    const url = query ? `/api/forum?q=${encodeURIComponent(query)}` : "/api/forum";
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     if (res.ok) setPosts(await res.json());
     setLoading(false);
   };
 
+  const handleSearch = () => {
+    fetchPosts(searchQuery);
+  };
+
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!firebaseUser || !newTitle.trim() || !newContent.trim()) return;
+    if (!firebaseUser || !newImage) return;
     setSubmitting(true);
 
     const token = await firebaseUser.getIdToken();
     const formData = new FormData();
-    formData.append("title", newTitle);
-    formData.append("content", newContent);
-    if (newImage) formData.append("image", newImage);
+    formData.append("description", newDescription);
+    formData.append("place", newPlace);
+    formData.append("mediaFile", newImage);
 
     const res = await fetch("/api/forum", {
       method: "POST",
@@ -72,8 +88,8 @@ export default function ForumPage() {
     });
 
     if (res.ok) {
-      setNewTitle("");
-      setNewContent("");
+      setNewDescription("");
+      setNewPlace("");
       setNewImage(null);
       setShowCreate(false);
       fetchPosts();
@@ -85,7 +101,7 @@ export default function ForumPage() {
     if (!firebaseUser) return;
     const token = await firebaseUser.getIdToken();
     const res = await fetch(`/api/forum/${postId}/promote`, {
-      method: "POST",
+      method: "PATCH",
       headers: { Authorization: `Bearer ${token}` },
     });
     if (res.ok) fetchPosts();
@@ -110,41 +126,59 @@ export default function ForumPage() {
         }
       />
 
+      {/* Search Bar (#28) */}
+      <motion.div variants={staggerItem} className="flex gap-2">
+        <div className="flex-1 relative">
+          <Search size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+          <input
+            type="text"
+            placeholder="Search posts..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
+            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
+          />
+        </div>
+        <Button variant="secondary" onClick={handleSearch}>Search</Button>
+      </motion.div>
+
       {/* Create Post */}
       {showCreate && (
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
           <Card variant="glass" padding="lg">
             <form onSubmit={handleCreate} className="space-y-4">
-              <input
-                type="text"
-                placeholder="Post title"
-                value={newTitle}
-                onChange={(e) => setNewTitle(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500"
-                required
-              />
               <textarea
                 placeholder="Share your thoughts..."
-                value={newContent}
-                onChange={(e) => setNewContent(e.target.value)}
+                value={newDescription}
+                onChange={(e) => setNewDescription(e.target.value)}
                 rows={4}
-                className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 resize-none"
+                className="w-full px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 resize-none"
+                style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
                 required
+              />
+              <input
+                type="text"
+                placeholder="Location (optional)"
+                value={newPlace}
+                onChange={(e) => setNewPlace(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
+                style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
               />
               <div className="flex items-center justify-between">
                 <button
                   type="button"
                   onClick={() => fileRef.current?.click()}
-                  className="flex items-center gap-2 text-sm text-slate-500 hover:text-emerald-600 transition-colors cursor-pointer"
+                  className="flex items-center gap-2 text-sm text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer"
                 >
                   <ImageIcon size={18} />
-                  {newImage ? newImage.name : "Add image"}
+                  {newImage ? newImage.name : "Add image/video"}
                 </button>
                 <Button type="submit" loading={submitting} icon={<Send size={16} />}>
                   Post
                 </Button>
               </div>
-              <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => setNewImage(e.target.files?.[0] || null)} />
+              <input ref={fileRef} type="file" accept="image/*,video/*" className="hidden" onChange={(e) => setNewImage(e.target.files?.[0] || null)} />
             </form>
           </Card>
         </motion.div>
@@ -161,7 +195,7 @@ export default function ForumPage() {
       ) : (
         <div className="space-y-4">
           {posts.map((post) => (
-            <motion.div key={post._id} variants={staggerItem}>
+            <motion.div key={post.id} variants={staggerItem}>
               <Card variant="default" padding="md" hover={false}>
                 <div className="flex gap-3">
                   <Avatar
@@ -170,38 +204,39 @@ export default function ForumPage() {
                     size="md"
                   />
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-2">
-                      <div>
-                        <h3 className="text-base font-semibold text-slate-800">
-                          {post.title}
-                        </h3>
-                        <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-xs font-medium text-slate-600">
-                            {post.authorName}
-                          </span>
-                          <span className="text-xs text-slate-400 flex items-center gap-1">
-                            <Clock size={12} />
-                            {new Date(post.createdAt).toLocaleDateString()}
-                          </span>
-                        </div>
-                      </div>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <span className="text-sm font-medium text-slate-200">
+                        {post.authorName}
+                      </span>
+                      {post.place && (
+                        <Badge variant="default" size="sm">{post.place}</Badge>
+                      )}
+                      <span className="text-xs text-slate-500 flex items-center gap-1">
+                        <Clock size={12} />
+                        {new Date(post.createdAt).toLocaleDateString()}
+                      </span>
                     </div>
-                    <p className="text-sm text-slate-600 mt-3 whitespace-pre-line">
-                      {post.content}
+                    <p className="text-sm text-slate-300 mt-3 whitespace-pre-line">
+                      {post.description || post.content}
                     </p>
-                    {post.image && (
-                      <img
-                        src={post.image}
-                        alt="Post"
-                        className="mt-3 rounded-xl max-h-72 object-cover border border-slate-100"
-                      />
+                    {(post.mediaUrl || post.image) && (
+                      <div className="mt-3 rounded-xl overflow-hidden relative max-h-72">
+                        <Image
+                          src={post.mediaUrl || post.image || ""}
+                          alt="Post media"
+                          width={600}
+                          height={400}
+                          className="object-cover rounded-xl"
+                          style={{ maxHeight: "288px", width: "100%" }}
+                        />
+                      </div>
                     )}
-                    <div className="flex items-center gap-4 mt-4 pt-3 border-t border-slate-50">
+                    <div className="flex items-center gap-4 mt-4 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
                       <button
-                        onClick={() => handlePromote(post._id)}
-                        className={`flex items-center gap-1.5 text-sm font-medium transition-colors cursor-pointer ${user && post.promoters.includes(user._id)
-                            ? "text-emerald-600"
-                            : "text-slate-400 hover:text-emerald-500"
+                        onClick={() => handlePromote(post.id)}
+                        className={`flex items-center gap-1.5 text-sm font-medium transition-colors cursor-pointer ${post.isPromotedByMe
+                            ? "text-emerald-400"
+                            : "text-slate-500 hover:text-emerald-400"
                           }`}
                       >
                         <ThumbsUp size={16} />

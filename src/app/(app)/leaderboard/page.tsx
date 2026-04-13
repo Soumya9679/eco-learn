@@ -13,7 +13,7 @@ import { PageSkeleton } from "@/components/ui/Skeleton";
 import { Trophy, Leaf, Medal, Crown, Award } from "lucide-react";
 
 interface LeaderboardEntry {
-  _id: string;
+  id: string;
   name: string;
   profilePicture?: string;
   school?: string;
@@ -28,9 +28,9 @@ const tabs = [
 ];
 
 const rankStyles = [
-  { bg: "bg-amber-50", border: "border-amber-200", icon: <Crown size={18} className="text-amber-500" /> },
-  { bg: "bg-slate-50", border: "border-slate-200", icon: <Medal size={18} className="text-slate-400" /> },
-  { bg: "bg-orange-50", border: "border-orange-200", icon: <Award size={18} className="text-orange-500" /> },
+  { bg: "rgba(245,158,11,0.1)", border: "border-amber-500/30", icon: <Crown size={18} className="text-amber-400" /> },
+  { bg: "rgba(148,163,184,0.1)", border: "border-slate-500/30", icon: <Medal size={18} className="text-slate-400" /> },
+  { bg: "rgba(249,115,22,0.1)", border: "border-orange-500/30", icon: <Award size={18} className="text-orange-400" /> },
 ];
 
 export default function LeaderboardPage() {
@@ -41,18 +41,14 @@ export default function LeaderboardPage() {
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
+      if (!firebaseUser) return;
       setLoading(true);
       const params = new URLSearchParams({ scope });
-      if (firebaseUser) {
-        const token = await firebaseUser.getIdToken();
-        const res = await fetch(`/api/leaderboard?${params}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (res.ok) setEntries(await res.json());
-      } else {
-        const res = await fetch(`/api/leaderboard?${params}`);
-        if (res.ok) setEntries(await res.json());
-      }
+      const token = await firebaseUser.getIdToken();
+      const res = await fetch(`/api/leaderboard?${params}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) setEntries(await res.json());
       setLoading(false);
     };
     fetchLeaderboard();
@@ -68,7 +64,7 @@ export default function LeaderboardPage() {
         <Tabs tabs={tabs} activeTab={scope} onTabChange={setScope} />
       </motion.div>
 
-      {/* Top 3 Podium */}
+      {/* Top 3 Podium — Fixed for dark theme (#11) */}
       {entries.length >= 3 && (
         <motion.div variants={staggerItem} className="grid grid-cols-3 gap-3">
           {[1, 0, 2].map((idx) => {
@@ -76,10 +72,11 @@ export default function LeaderboardPage() {
             const isFirst = idx === 0;
             return (
               <Card
-                key={e._id}
+                key={e.id}
                 variant="glass"
                 padding="md"
-                className={`text-center ${isFirst ? "lg:-mt-4 border-2 border-amber-200" : ""}`}
+                className={`text-center ${isFirst ? "lg:-mt-4" : ""}`}
+                style={isFirst ? { border: "2px solid rgba(245,158,11,0.3)" } : undefined}
               >
                 <div className="flex flex-col items-center gap-2">
                   <div className="relative">
@@ -89,8 +86,8 @@ export default function LeaderboardPage() {
                       {idx + 1}
                     </div>
                   </div>
-                  <p className="text-sm font-semibold text-slate-800 truncate w-full">{e.name}</p>
-                  <div className="flex items-center gap-1 text-emerald-600 font-bold">
+                  <p className="text-sm font-semibold text-slate-200 truncate w-full">{e.name}</p>
+                  <div className="flex items-center gap-1 text-emerald-400 font-bold">
                     <Leaf size={14} /> {e.ecoPoints}
                   </div>
                 </div>
@@ -102,30 +99,31 @@ export default function LeaderboardPage() {
 
       {/* Full List */}
       <Card variant="default" padding="none">
-        <div className="divide-y divide-slate-50">
+        <div className="divide-y divide-white/5">
           {entries.map((entry, i) => {
-            const isCurrentUser = user && entry._id === user._id;
+            const isCurrentUser = user && entry.id === user.id;
             return (
               <motion.div
-                key={entry._id}
+                key={entry.id}
                 variants={staggerItem}
-                className={`flex items-center gap-4 px-5 py-3.5 transition-colors ${isCurrentUser ? "bg-emerald-50/50" : "hover:bg-slate-50/50"
+                className={`flex items-center gap-4 px-5 py-3.5 transition-colors ${isCurrentUser ? "" : "hover:bg-white/5"
                   }`}
+                style={isCurrentUser ? { background: "rgba(16,185,129,0.08)" } : undefined}
               >
-                <span className={`w-8 text-center text-sm font-bold ${i < 3 ? "text-amber-500" : "text-slate-400"
+                <span className={`w-8 text-center text-sm font-bold ${i < 3 ? "text-amber-400" : "text-slate-500"
                   }`}>
                   {i < 3 ? rankStyles[i].icon : `#${i + 1}`}
                 </span>
                 <Avatar src={entry.profilePicture} name={entry.name} size="sm" />
                 <div className="flex-1 min-w-0">
-                  <p className={`text-sm font-medium truncate ${isCurrentUser ? "text-emerald-700" : "text-slate-700"}`}>
+                  <p className={`text-sm font-medium truncate ${isCurrentUser ? "text-emerald-400" : "text-slate-200"}`}>
                     {entry.name} {isCurrentUser && <Badge variant="success" size="sm">You</Badge>}
                   </p>
                   {entry.school && (
-                    <p className="text-xs text-slate-400 truncate">{entry.school}</p>
+                    <p className="text-xs text-slate-500 truncate">{entry.school}</p>
                   )}
                 </div>
-                <div className="flex items-center gap-1 text-sm font-semibold text-emerald-600">
+                <div className="flex items-center gap-1 text-sm font-semibold text-emerald-400">
                   <Leaf size={14} />
                   {entry.ecoPoints}
                 </div>

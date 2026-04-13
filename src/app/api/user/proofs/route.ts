@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
       .get();
 
     const proofs = snapshot.docs.map((doc) => ({
-      _id: doc.id,
+      id: doc.id,
       ...doc.data(),
     }));
 

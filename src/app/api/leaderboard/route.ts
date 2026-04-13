@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
     const topUsers = snapshot.docs.map((doc) => {
       const data = doc.data();
       return {
-        _id: doc.id,
+        id: doc.id,
         name: data.name,
         ecoPoints: data.ecoPoints,
         school: data.school || "",

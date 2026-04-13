@@ -1,0 +1,99 @@
+# Firestore Security Rules for EcoLearn
+#
+# These rules should be deployed to your Firebase project:
+# firebase deploy --only firestore:rules
+#
+# File: firestore.rules
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helper Functions ──
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    function getUserRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && getUserRole() in ['admin', 'superadmin'];
+    }
+
+    function isSuperAdmin() {
+      return isAuthenticated() && getUserRole() == 'superadmin';
+    }
+
+    // ── Users Collection ──
+    match /users/{userId} {
+      // Users can read their own profile; admins can read any
+      allow read: if isAuthenticated() && (isOwner(userId) || isAdmin());
+
+      // Users can update their own non-sensitive fields
+      allow update: if isAuthenticated() && isOwner(userId)
+        && !request.resource.data.diff(resource.data).affectedKeys()
+            .hasAny(['role', 'status']);
+
+      // Only admins can create/delete users or update role/status
+      allow create, delete: if isSuperAdmin();
+      allow update: if isSuperAdmin();
+    }
+
+    // ── Modules Collection ──
+    match /modules/{moduleId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ── Quizzes Collection ──
+    match /quizzes/{quizId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ── Challenges Collection ──
+    match /challenges/{challengeId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ── Posts (Forum) Collection ──
+    match /posts/{postId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated()
+        && (isOwner(resource.data.authorId) || isAdmin());
+    }
+
+    // ── Proofs Collection ──
+    match /proofs/{proofId} {
+      allow read: if isAuthenticated()
+        && (isOwner(resource.data.userId) || isAdmin());
+      allow create: if isAuthenticated();
+      allow update: if isAdmin(); // Only admins approve proofs
+      allow delete: if isSuperAdmin();
+    }
+
+    // ── User Activities Collection ──
+    match /userActivities/{activityId} {
+      allow read: if isAuthenticated()
+        && isOwner(resource.data.userId);
+      allow create: if isAuthenticated();
+      allow update, delete: if false; // Activities are immutable
+    }
+
+    // ── Deny all other access ──
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

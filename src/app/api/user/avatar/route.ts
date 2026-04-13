@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const formData = await req.formData();
-    const file = formData.get("avatarImage") as File;
+    const file = formData.get("avatar") as File;
     if (!file) {
       return NextResponse.json(
         { message: "No file uploaded." },
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       message: "Avatar updated successfully!",
-      user: { _id: updatedDoc.id, ...updatedDoc.data() },
+      user: { id: updatedDoc.id, ...updatedDoc.data() },
     });
   } catch (error) {
     console.error("Avatar upload error:", error);

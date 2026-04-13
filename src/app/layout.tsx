@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
@@ -28,6 +28,7 @@ export const metadata: Metadata = {
     "gamified learning",
   ],
   authors: [{ name: "EcoLearn Team" }],
+  manifest: "/manifest.json",
   openGraph: {
     title: "EcoLearn — Interactive Environmental Education",
     description:
@@ -37,6 +38,12 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#10b981",
+  width: "device-width",
+  initialScale: 1,
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -44,10 +51,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${jakarta.variable}`}>
-      <head>
-        <meta name="theme-color" content="#10b981" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </head>
       <body
         className="font-sans antialiased"
         style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}

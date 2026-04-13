@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
       .get();
 
     const activities = snapshot.docs.map((doc) => ({
-      _id: doc.id,
+      id: doc.id,
       ...doc.data(),
     }));
 
