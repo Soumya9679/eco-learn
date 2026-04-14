@@ -17,14 +17,14 @@ interface ButtonProps extends Omit<HTMLMotionProps<"button">, "children"> {
 
 const variantStyles: Record<ButtonVariant, React.CSSProperties> = {
     primary: {
-        background: "linear-gradient(135deg, #22c55e, #15803d)",
-        color: "white",
-        boxShadow: "0 4px 20px rgba(34, 197, 94, 0.3)",
+        background: "linear-gradient(135deg, var(--primary-400), var(--primary-600))",
+        color: "#020617", /* Dark text for contrast against bright cyan */
+        boxShadow: "0 4px 20px rgba(6, 182, 212, 0.4)",
     },
     secondary: {
         background: "rgba(255, 255, 255, 0.05)",
-        color: "#e2e8f0",
-        border: "1px solid rgba(255, 255, 255, 0.1)",
+        color: "#f8fafc",
+        border: "1px solid var(--border-color)",
     },
     ghost: {
         background: "transparent",

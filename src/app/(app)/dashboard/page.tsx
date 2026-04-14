@@ -76,10 +76,10 @@ export default function DashboardPage() {
   ];
 
   const stats = [
-    { label: "EcoPoints", value: user.ecoPoints, icon: Leaf, color: "text-green-400", bg: "rgba(34,197,94,0.1)" },
-    { label: "Modules", value: user.progress.modulesCompleted, icon: BookOpen, color: "text-blue-400", bg: "rgba(59,130,246,0.1)" },
-    { label: "Challenges", value: user.progress.challengesCompleted, icon: Target, color: "text-purple-400", bg: "rgba(147,51,234,0.1)" },
-    { label: "Quizzes", value: user.progress.quizzesCompleted, icon: HelpCircle, color: "text-amber-400", bg: "rgba(245,158,11,0.1)" },
+    { label: "EcoPoints", value: user.ecoPoints, icon: Leaf, color: "text-[#34d399]", bg: "rgba(16, 185, 129, 0.15)" },
+    { label: "Modules", value: user.progress.modulesCompleted, icon: BookOpen, color: "text-[#22d3ee]", bg: "rgba(6, 182, 212, 0.15)" },
+    { label: "Challenges", value: user.progress.challengesCompleted, icon: Target, color: "text-[#c084fc]", bg: "rgba(168, 85, 247, 0.15)" },
+    { label: "Quizzes", value: user.progress.quizzesCompleted, icon: HelpCircle, color: "text-[#f472b6]", bg: "rgba(236, 72, 153, 0.15)" },
   ];
 
   const activityIcon: Record<string, React.ReactNode> = {
@@ -99,22 +99,29 @@ export default function DashboardPage() {
       {/* Welcome Hero */}
       <motion.div
         variants={staggerItem}
-        className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-green-500 via-green-600 to-emerald-700 p-6 sm:p-8 text-white"
+        className="relative overflow-hidden rounded-[32px] p-8 sm:p-10 text-white"
+        style={{
+          background: "linear-gradient(135deg, var(--primary-700), var(--bg-hover))",
+          boxShadow: "0 10px 40px rgba(6, 182, 212, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
+          border: "1px solid var(--border-color)"
+        }}
       >
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/3 translate-x-1/3" />
-        <div className="absolute bottom-0 left-0 w-40 h-40 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/4" />
-        <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <Avatar src={user.profilePicture} name={user.name} size="lg" ring />
+        <div className="absolute top-0 right-0 w-80 h-80 bg-[var(--primary-400)]/10 rounded-full blur-[80px] -translate-y-1/3 translate-x-1/3" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-[var(--accent-400)]/10 rounded-full blur-[60px] translate-y-1/2 -translate-x-1/4" />
+        <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <div className="flex items-center gap-5">
+            <Avatar src={user.profilePicture} name={user.name} size="xl" ring />
             <div>
-              <p className="text-green-100 text-sm">Welcome back,</p>
-              <h1 className="text-2xl sm:text-3xl font-bold" style={{ fontFamily: "var(--font-jakarta)" }}>
+              <p className="text-[#94a3b8] text-sm font-medium tracking-wide">Welcome back,</p>
+              <h1 className="text-3xl sm:text-4xl font-bold mt-1 tracking-tight" style={{ fontFamily: "var(--font-heading)" }}>
                 {user.name}! 🌿
               </h1>
-              <div className="flex items-center gap-2 mt-1">
-                <Zap size={16} className="text-amber-300" />
-                <span className="text-green-100 text-sm font-medium">
-                  {user.ecoPoints} EcoPoints earned
+              <div className="flex items-center gap-2 mt-3">
+                <div className="p-1 rounded-full bg-amber-500/20 text-amber-400">
+                   <Zap size={14} />
+                </div>
+                <span className="text-[#34d399] text-sm font-semibold tracking-wide">
+                  {user.ecoPoints} <span className="text-slate-400 font-medium">EcoPoints earned</span>
                 </span>
               </div>
             </div>
@@ -135,9 +142,9 @@ export default function DashboardPage() {
             <Card variant="glass" padding="md" className="relative overflow-hidden">
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">{s.label}</p>
+                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{s.label}</p>
                   <motion.p
-                    className="text-2xl sm:text-3xl font-bold text-white mt-1"
+                    className="text-3xl font-bold text-white mt-1"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.5 + i * 0.1 }}
@@ -159,7 +166,7 @@ export default function DashboardPage() {
 
       {/* Quick Actions */}
       <motion.div variants={staggerItem}>
-        <h2 className="text-lg font-bold text-white mb-4" style={{ fontFamily: "var(--font-jakarta)" }}>
+        <h2 className="text-xl font-bold text-white mb-4 tracking-tight" style={{ fontFamily: "var(--font-heading)" }}>
           Quick Actions
         </h2>
         <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
@@ -179,7 +186,7 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Activity */}
         <motion.div variants={staggerItem}>
-          <h2 className="text-lg font-bold text-white mb-4" style={{ fontFamily: "var(--font-jakarta)" }}>
+          <h2 className="text-xl font-bold text-white mb-4 tracking-tight" style={{ fontFamily: "var(--font-heading)" }}>
             Recent Activity
           </h2>
           <Card variant="default" padding="none">
@@ -216,7 +223,7 @@ export default function DashboardPage() {
 
         {/* Achievements */}
         <motion.div variants={staggerItem}>
-          <h2 className="text-lg font-bold text-white mb-4" style={{ fontFamily: "var(--font-jakarta)" }}>
+          <h2 className="text-xl font-bold text-white mb-4 tracking-tight" style={{ fontFamily: "var(--font-heading)" }}>
             Achievements
           </h2>
           <Card variant="default" padding="none">

@@ -89,25 +89,29 @@ export default function LandingPage() {
       icon: BookOpen,
       title: "Interactive Modules",
       desc: "Video lessons, docs & interactive quizzes",
-      gradient: "from-blue-500 to-cyan-400",
+      gradient: "from-cyan-500 to-blue-500",
+      shadow: "rgba(6, 182, 212, 0.4)"
     },
     {
       icon: Target,
       title: "Eco Challenges",
       desc: "Complete real-world sustainability tasks",
-      gradient: "from-emerald-500 to-green-400",
+      gradient: "from-emerald-400 to-teal-500",
+      shadow: "rgba(16, 185, 129, 0.4)"
     },
     {
       icon: Gamepad2,
       title: "Fun Games",
       desc: "Play eco-themed games while learning",
-      gradient: "from-violet-500 to-purple-400",
+      gradient: "from-fuchsia-500 to-purple-600",
+      shadow: "rgba(217, 70, 239, 0.4)"
     },
     {
       icon: Trophy,
       title: "Earn & Compete",
       desc: "Collect EcoPoints and top the leaderboard",
-      gradient: "from-amber-500 to-yellow-400",
+      gradient: "from-amber-400 to-orange-500",
+      shadow: "rgba(245, 158, 11, 0.4)"
     },
   ];
 
@@ -139,13 +143,13 @@ export default function LandingPage() {
     >
       {/* Animated Background Orbs */}
       <div
-        className="bg-orb"
+        className="bg-orb hidden md:block"
         style={{
           width: "600px",
           height: "600px",
           left: "-100px",
           top: "-100px",
-          background: "radial-gradient(circle, rgba(34, 197, 94, 0.15), transparent 70%)",
+          background: "radial-gradient(circle, rgba(6, 182, 212, 0.15), transparent 70%)",
           animationDelay: "0s",
         }}
       />
@@ -156,18 +160,18 @@ export default function LandingPage() {
           height: "500px",
           right: "-50px",
           bottom: "-50px",
-          background: "radial-gradient(circle, rgba(56, 189, 248, 0.1), transparent 70%)",
+          background: "radial-gradient(circle, rgba(16, 185, 129, 0.15), transparent 70%)",
           animationDelay: "-7s",
         }}
       />
       <div
-        className="bg-orb"
+        className="bg-orb hidden md:block"
         style={{
           width: "400px",
           height: "400px",
           left: "40%",
           top: "60%",
-          background: "radial-gradient(circle, rgba(139, 92, 246, 0.08), transparent 70%)",
+          background: "radial-gradient(circle, rgba(217, 70, 239, 0.1), transparent 70%)",
           animationDelay: "-14s",
         }}
       />
@@ -194,17 +198,17 @@ export default function LandingPage() {
             {/* Logo */}
             <div className="flex items-center gap-3 mb-12">
               <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center text-white"
+                className="w-12 h-12 rounded-2xl flex items-center justify-center text-[#020617]"
                 style={{
-                  background: "linear-gradient(135deg, #22c55e, #15803d)",
-                  boxShadow: "0 0 30px rgba(34, 197, 94, 0.3)",
+                  background: "linear-gradient(135deg, var(--primary-400), var(--primary-600))",
+                  boxShadow: "0 0 30px rgba(6, 182, 212, 0.5)",
                 }}
               >
                 <Leaf size={28} />
               </div>
               <span
-                className="text-2xl font-bold text-white"
-                style={{ fontFamily: "var(--font-jakarta)" }}
+                className="text-2xl font-bold text-white tracking-tight"
+                style={{ fontFamily: "var(--font-heading)" }}
               >
                 EcoLearn
               </span>
@@ -238,11 +242,11 @@ export default function LandingPage() {
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center"
                     style={{
-                      background: "rgba(34, 197, 94, 0.1)",
-                      border: "1px solid rgba(34, 197, 94, 0.2)",
+                      background: "rgba(6, 182, 212, 0.1)",
+                      border: "1px solid rgba(6, 182, 212, 0.2)",
                     }}
                   >
-                    <stat.icon size={18} style={{ color: "#4ade80" }} />
+                    <stat.icon size={18} style={{ color: "var(--primary-400)" }} />
                   </div>
                   <div>
                     <p className="text-lg font-bold text-white">{stat.value}</p>
@@ -262,17 +266,17 @@ export default function LandingPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 + i * 0.1 }}
-                  className="flex items-center gap-3 p-3 rounded-xl"
+                  className="flex items-center gap-3 p-3 rounded-2xl"
                   style={{
-                    background: "rgba(255, 255, 255, 0.03)",
-                    border: "1px solid rgba(255, 255, 255, 0.06)",
+                    background: "var(--bg-card)",
+                    border: "1px solid var(--border-color)",
                   }}
                 >
                   <div
-                    className={`w-9 h-9 rounded-lg bg-gradient-to-br ${f.gradient} flex items-center justify-center text-white flex-shrink-0`}
-                    style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.3)" }}
+                    className={`w-10 h-10 rounded-xl bg-gradient-to-br ${f.gradient} flex items-center justify-center text-white flex-shrink-0`}
+                    style={{ boxShadow: `0 4px 16px ${f.shadow}` }}
                   >
-                    <f.icon size={18} />
+                    <f.icon size={20} />
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-white">{f.title}</p>
@@ -312,17 +316,18 @@ export default function LandingPage() {
                   {/* Header Icon */}
                   <div className="flex items-center gap-2 mb-6">
                     <div
-                      className="w-8 h-8 rounded-lg flex items-center justify-center"
+                      className="w-10 h-10 rounded-xl flex items-center justify-center"
                       style={{
-                        background: "linear-gradient(135deg, #22c55e, #06b6d4)",
+                        background: "linear-gradient(135deg, var(--primary-400), var(--accent-500))",
+                        boxShadow: "0 4px 20px rgba(6, 182, 212, 0.4)",
                       }}
                     >
-                      <Sparkles size={16} className="text-white" />
+                      <Sparkles size={18} className="text-[#020617]" />
                     </div>
                     <div>
                       <h2
-                        className="text-xl font-bold text-white"
-                        style={{ fontFamily: "var(--font-jakarta)" }}
+                        className="text-xl font-bold text-white tracking-tight"
+                        style={{ fontFamily: "var(--font-heading)" }}
                       >
                         {showForgot
                           ? "Reset Password"
@@ -470,12 +475,12 @@ export default function LandingPage() {
                     <motion.button
                       type="submit"
                       disabled={submitting}
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
-                      className="w-full py-3 rounded-xl text-white font-semibold text-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full py-3 rounded-2xl text-[#020617] font-bold text-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all mt-4"
                       style={{
-                        background: "linear-gradient(135deg, #22c55e, #15803d)",
-                        boxShadow: "0 4px 20px rgba(34, 197, 94, 0.3)",
+                        background: "linear-gradient(135deg, var(--primary-400), var(--primary-600))",
+                        boxShadow: "0 8px 30px rgba(6, 182, 212, 0.4)",
                       }}
                     >
                       {submitting ? (

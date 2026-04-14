@@ -191,7 +191,7 @@ export default function AdminPage() {
             {[
               { label: "Total Users", value: stats.totalUsers, change: stats.usersChange, icon: Users, color: "text-blue-400", bg: "rgba(59,130,246,0.1)" },
               { label: "Faculty", value: stats.totalFaculty, change: stats.facultyChange, icon: Shield, color: "text-purple-400", bg: "rgba(147,51,234,0.1)" },
-              { label: "Active Users", value: stats.activeUsers, change: stats.activityChange, icon: BarChart3, color: "text-green-400", bg: "rgba(34,197,94,0.1)" },
+              { label: "Active Users", value: stats.activeUsers, change: stats.activityChange, icon: BarChart3, color: "text-[var(--primary-400)]", bg: "rgba(52,211,153,0.1)" },
               { label: "Total Content", value: stats.totalContent, change: stats.contentChange, icon: BookOpen, color: "text-amber-400", bg: "rgba(245,158,11,0.1)" },
             ].map((s) => (
               <Card key={s.label} variant="glass" padding="md">
@@ -199,7 +199,7 @@ export default function AdminPage() {
                   <div>
                     <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">{s.label}</p>
                     <p className="text-2xl font-bold text-white mt-1">{s.value}</p>
-                    <p className="text-xs text-green-400 mt-1">{s.change}</p>
+                    <p className="text-xs text-[var(--primary-400)] mt-1">{s.change}</p>
                   </div>
                   <div
                     className={`w-10 h-10 rounded-xl flex items-center justify-center ${s.color}`}
@@ -256,7 +256,7 @@ export default function AdminPage() {
                     <select
                       value={editUser.role}
                       onChange={(e) => setEditUser({ ...editUser, role: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500/30"
+                      className="w-full px-4 py-2.5 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]/30"
                       style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
                     >
                       <option value="user">User</option>
@@ -269,7 +269,7 @@ export default function AdminPage() {
                     <select
                       value={editUser.status}
                       onChange={(e) => setEditUser({ ...editUser, status: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500/30"
+                      className="w-full px-4 py-2.5 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]/30"
                       style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
                     >
                       <option value="active">Active</option>

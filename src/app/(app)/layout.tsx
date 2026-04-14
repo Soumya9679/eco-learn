@@ -33,9 +33,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-[var(--bg-primary)]">
       <Navbar />
-      {/* Main content area - pushed right by sidebar on desktop */}
-      <main className="lg:pl-[260px] pb-20 lg:pb-0 transition-all duration-300">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      {/* Main content area - centered with top padding for floating dock */}
+      <main className="pt-24 lg:pt-28 pb-24 lg:pb-12 transition-all duration-300">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {children}
         </div>
       </main>

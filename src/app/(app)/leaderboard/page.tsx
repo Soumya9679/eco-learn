@@ -87,7 +87,7 @@ export default function LeaderboardPage() {
                     </div>
                   </div>
                   <p className="text-sm font-semibold text-slate-200 truncate w-full">{e.name}</p>
-                  <div className="flex items-center gap-1 text-green-400 font-bold">
+                  <div className="flex items-center gap-1 text-[var(--primary-400)] font-bold">
                     <Leaf size={14} /> {e.ecoPoints}
                   </div>
                 </div>
@@ -108,7 +108,7 @@ export default function LeaderboardPage() {
                 variants={staggerItem}
                 className={`flex items-center gap-4 px-5 py-3.5 transition-colors ${isCurrentUser ? "" : "hover:bg-white/5"
                   }`}
-                style={isCurrentUser ? { background: "rgba(16,185,129,0.08)" } : undefined}
+                style={isCurrentUser ? { background: "rgba(52,211,153,0.08)" } : undefined}
               >
                 <span className={`w-8 text-center text-sm font-bold ${i < 3 ? "text-amber-400" : "text-slate-500"
                   }`}>
@@ -116,14 +116,14 @@ export default function LeaderboardPage() {
                 </span>
                 <Avatar src={entry.profilePicture} name={entry.name} size="sm" />
                 <div className="flex-1 min-w-0">
-                  <p className={`text-sm font-medium truncate ${isCurrentUser ? "text-green-400" : "text-slate-200"}`}>
+                  <p className={`text-sm font-medium truncate ${isCurrentUser ? "text-[var(--primary-400)]" : "text-slate-200"}`}>
                     {entry.name} {isCurrentUser && <Badge variant="success" size="sm">You</Badge>}
                   </p>
                   {entry.school && (
                     <p className="text-xs text-slate-500 truncate">{entry.school}</p>
                   )}
                 </div>
-                <div className="flex items-center gap-1 text-sm font-semibold text-green-400">
+                <div className="flex items-center gap-1 text-sm font-semibold text-[var(--primary-400)]">
                   <Leaf size={14} />
                   {entry.ecoPoints}
                 </div>

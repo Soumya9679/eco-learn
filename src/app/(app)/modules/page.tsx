@@ -134,9 +134,9 @@ export default function ModulesPage() {
               key={i}
               onClick={() => { setLessonIdx(i); setQuizAnswer(null); setQuizFeedback(""); }}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${i === lessonIdx
-                  ? "bg-green-500/20 text-green-400"
+                  ? "bg-[var(--primary-400)]/20 text-[var(--primary-400)]"
                   : i < lessonIdx
-                    ? "bg-green-500/10 text-green-500"
+                    ? "bg-[var(--primary-400)]/10 text-[var(--primary-500)]"
                     : "bg-white/5 text-slate-400"
                 }`}
             >
@@ -171,7 +171,7 @@ export default function ModulesPage() {
                     key={i}
                     onClick={() => { setQuizAnswer(i); setQuizFeedback(""); }}
                     className={`w-full text-left px-4 py-3 rounded-xl border transition-all cursor-pointer ${quizAnswer === i
-                        ? "border-green-500 bg-green-500/10 text-green-400"
+                        ? "border-[var(--primary-400)] bg-[var(--primary-400)]/10 text-[var(--primary-400)]"
                         : "border-white/10 hover:border-white/20 text-slate-300"
                       }`}
                   >
@@ -223,7 +223,7 @@ export default function ModulesPage() {
             placeholder="Search modules..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-500"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[var(--primary-400)]/30 focus:border-[var(--primary-400)]"
           />
         </div>
         <div className="flex gap-2 overflow-x-auto pb-1">
@@ -232,8 +232,8 @@ export default function ModulesPage() {
               key={cat}
               onClick={() => setCategory(cat)}
               className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all cursor-pointer ${category === cat
-                  ? "bg-green-500 text-white shadow-md"
-                  : "bg-white/5 text-slate-400 hover:bg-white/5 border border-white/10"
+                  ? "bg-[var(--primary-500)] text-[#020617] shadow-[0_0_15px_var(--shadow-glow)]"
+                  : "bg-white/5 text-slate-400 hover:bg-white/10 border border-white/10"
                 }`}
             >
               {cat}
@@ -247,7 +247,7 @@ export default function ModulesPage() {
         {filtered.map((mod) => (
           <motion.div key={mod.id} variants={staggerItem}>
             <Card variant="glass" padding="none" className="overflow-hidden cursor-pointer" onClick={() => setActiveModule(mod)}>
-              <div className="h-2 bg-gradient-to-r from-green-400 to-emerald-500" />
+              <div className="h-2 bg-gradient-to-r from-[var(--primary-400)] to-[var(--accent-500)]" />
               <div className="p-5 space-y-3">
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="text-base font-semibold text-white">{mod.title}</h3>

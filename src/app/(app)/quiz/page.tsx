@@ -90,7 +90,7 @@ export default function QuizPage() {
               <h2 className="text-2xl font-bold text-white">Quiz Complete!</h2>
               <p className="text-slate-500 mt-1">{activeQuiz.title}</p>
             </div>
-            <div className="text-5xl font-bold text-green-400">{score}%</div>
+            <div className="text-5xl font-bold text-[var(--primary-400)]">{score}%</div>
             <p className="text-slate-400">{correct}/{total} correct • +{correct * 10} EcoPoints</p>
             <div className="flex gap-3 justify-center">
               <Button variant="secondary" onClick={() => { setActiveQuiz(null); setShowResult(false); }} icon={<X size={16} />}>Close</Button>
@@ -106,7 +106,7 @@ export default function QuizPage() {
                 <p className="text-sm font-medium text-white mb-2">{q.question}</p>
                 <div className="space-y-1">
                   {q.choices.map((c, ci) => (
-                    <div key={ci} className={`px-3 py-2 rounded-lg text-sm ${ci === q.correctAnswer ? "bg-green-500/10 text-green-400 font-medium" :
+                    <div key={ci} className={`px-3 py-2 rounded-lg text-sm ${ci === q.correctAnswer ? "bg-[var(--primary-400)]/10 text-[var(--primary-400)] font-medium glow-[0_0_10px_var(--shadow-glow)]" :
                         ci === answers[i] && ci !== q.correctAnswer ? "bg-red-500/10 text-red-400" :
                           "text-slate-400"
                       }`}>
@@ -147,7 +147,7 @@ export default function QuizPage() {
                 whileTap={{ scale: 0.98 }}
                 onClick={() => { const a = [...answers]; a[qIdx] = ci; setAnswers(a); }}
                 className={`w-full text-left px-4 py-3 rounded-xl border transition-all cursor-pointer ${answers[qIdx] === ci
-                    ? "border-green-500 bg-green-500/10 text-green-400 shadow-sm"
+                    ? "border-[var(--primary-400)] bg-[var(--primary-400)]/10 text-[var(--primary-400)] shadow-[0_0_15px_var(--shadow-glow)]"
                     : "border-white/10 hover:border-white/20 text-slate-300 hover:bg-white/5"
                   }`}
               >
@@ -183,7 +183,7 @@ export default function QuizPage() {
         {quizzes.map((quiz) => (
           <motion.div key={quiz.id} variants={staggerItem}>
             <Card variant="glass" padding="none" className="overflow-hidden cursor-pointer" onClick={() => startQuiz(quiz)}>
-              <div className="h-2 bg-gradient-to-r from-purple-400 to-purple-600" />
+              <div className="h-2 bg-gradient-to-r from-[var(--accent-400)] to-purple-600" />
               <div className="p-5 space-y-3">
                 <h3 className="text-base font-semibold text-white">{quiz.title}</h3>
                 <p className="text-sm text-slate-500 line-clamp-2">{quiz.description}</p>

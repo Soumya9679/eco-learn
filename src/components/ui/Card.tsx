@@ -34,15 +34,14 @@ export default function Card({
 
     const variantStyles: Record<string, React.CSSProperties> = {
         default: {
-            background: "rgba(10, 30, 15, 0.4)",
-            border: "1px solid rgba(255, 255, 255, 0.04)",
-            backdropFilter: "blur(12px)",
+            background: "var(--bg-primary)",
+            border: "1px solid var(--border-color)",
         },
         glass: {
-            background: "rgba(10, 30, 15, 0.6)",
-            border: "1px solid rgba(34, 197, 94, 0.12)",
-            backdropFilter: "blur(24px)",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)",
+            background: "var(--bg-card)",
+            backdropFilter: "blur(32px) saturate(180%)",
+            border: "1px solid var(--border-color)",
+            boxShadow: "var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.05)",
         },
         gradient: gradientFrom && gradientTo ? {
             background: `linear-gradient(135deg, ${gradientFrom}, ${gradientTo})`,
