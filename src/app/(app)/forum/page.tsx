@@ -136,7 +136,7 @@ export default function ForumPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/30"
             style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
           />
         </div>
@@ -153,7 +153,7 @@ export default function ForumPage() {
                 value={newDescription}
                 onChange={(e) => setNewDescription(e.target.value)}
                 rows={4}
-                className="w-full px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 resize-none"
+                className="w-full px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/30 resize-none"
                 style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
                 required
               />
@@ -162,14 +162,14 @@ export default function ForumPage() {
                 placeholder="Location (optional)"
                 value={newPlace}
                 onChange={(e) => setNewPlace(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
+                className="w-full px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/30"
                 style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
               />
               <div className="flex items-center justify-between">
                 <button
                   type="button"
                   onClick={() => fileRef.current?.click()}
-                  className="flex items-center gap-2 text-sm text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer"
+                  className="flex items-center gap-2 text-sm text-slate-400 hover:text-green-400 transition-colors cursor-pointer"
                 >
                   <ImageIcon size={18} />
                   {newImage ? newImage.name : "Add image/video"}
@@ -235,8 +235,8 @@ export default function ForumPage() {
                       <button
                         onClick={() => handlePromote(post.id)}
                         className={`flex items-center gap-1.5 text-sm font-medium transition-colors cursor-pointer ${post.isPromotedByMe
-                            ? "text-emerald-400"
-                            : "text-slate-500 hover:text-emerald-400"
+                            ? "text-green-400"
+                            : "text-slate-500 hover:text-green-400"
                           }`}
                       >
                         <ThumbsUp size={16} />

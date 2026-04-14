@@ -90,7 +90,7 @@ export default function GamesPage() {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-lg mx-auto space-y-6 text-center mt-12">
           <div className="text-6xl">🎉</div>
           <h2 className="text-2xl font-bold text-white">Game Complete!</h2>
-          <p className="text-3xl font-bold text-emerald-600">{sortingScore}/{game.items!.length} correct</p>
+          <p className="text-3xl font-bold text-green-400">{sortingScore}/{game.items!.length} correct</p>
           <Button onClick={resetGame}>Back to Games</Button>
         </motion.div>
       );
@@ -187,7 +187,7 @@ export default function GamesPage() {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-lg mx-auto space-y-6 text-center mt-12">
           <div className="text-6xl">🌳</div>
           <h2 className="text-2xl font-bold text-white">Forest Grown!</h2>
-          <p className="text-3xl font-bold text-emerald-600">{treeScore}/{game.questions!.length} trees</p>
+          <p className="text-3xl font-bold text-green-400">{treeScore}/{game.questions!.length} trees</p>
           <Button onClick={resetGame}>Back to Games</Button>
         </motion.div>
       );

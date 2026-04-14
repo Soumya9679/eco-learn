@@ -87,7 +87,7 @@ export default function ChallengesPage() {
             key={cat}
             onClick={() => setCategory(cat)}
             className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all cursor-pointer ${category === cat
-                ? "bg-emerald-500 text-white shadow-md"
+                ? "bg-green-500 text-white shadow-md"
                 : "bg-white/5 text-slate-400 hover:bg-white/5 border border-white/10"
               }`}
           >
@@ -107,7 +107,7 @@ export default function ChallengesPage() {
                   animate={{ scale: 1 }}
                   className="absolute top-3 right-3"
                 >
-                  <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white">
+                  <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white">
                     <CheckCircle size={18} />
                   </div>
                 </motion.div>

@@ -134,10 +134,10 @@ export default function ModulesPage() {
               key={i}
               onClick={() => { setLessonIdx(i); setQuizAnswer(null); setQuizFeedback(""); }}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${i === lessonIdx
-                  ? "bg-emerald-100 text-emerald-700"
+                  ? "bg-green-500/20 text-green-400"
                   : i < lessonIdx
-                    ? "bg-emerald-50 text-emerald-500"
-                    : "bg-slate-100 text-slate-400"
+                    ? "bg-green-500/10 text-green-500"
+                    : "bg-white/5 text-slate-400"
                 }`}
             >
               {i < lessonIdx ? <CheckCircle size={14} /> : lessonIcon[l.type]}
@@ -171,7 +171,7 @@ export default function ModulesPage() {
                     key={i}
                     onClick={() => { setQuizAnswer(i); setQuizFeedback(""); }}
                     className={`w-full text-left px-4 py-3 rounded-xl border transition-all cursor-pointer ${quizAnswer === i
-                        ? "border-emerald-500 bg-emerald-50 text-emerald-700"
+                        ? "border-green-500 bg-green-500/10 text-green-400"
                         : "border-white/10 hover:border-white/20 text-slate-300"
                       }`}
                   >
@@ -183,7 +183,7 @@ export default function ModulesPage() {
                 <Button onClick={() => handleQuizSubmit(lesson)}>Submit Answer</Button>
               )}
               {quizFeedback && (
-                <p className={`text-sm font-medium ${quizFeedback.startsWith("✅") ? "text-emerald-600" : "text-red-500"}`}>
+                <p className={`text-sm font-medium ${quizFeedback.startsWith("✅") ? "text-green-400" : "text-red-400"}`}>
                   {quizFeedback}
                 </p>
               )}
@@ -223,7 +223,7 @@ export default function ModulesPage() {
             placeholder="Search modules..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-500"
           />
         </div>
         <div className="flex gap-2 overflow-x-auto pb-1">
@@ -232,7 +232,7 @@ export default function ModulesPage() {
               key={cat}
               onClick={() => setCategory(cat)}
               className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all cursor-pointer ${category === cat
-                  ? "bg-emerald-500 text-white shadow-md"
+                  ? "bg-green-500 text-white shadow-md"
                   : "bg-white/5 text-slate-400 hover:bg-white/5 border border-white/10"
                 }`}
             >
@@ -247,14 +247,14 @@ export default function ModulesPage() {
         {filtered.map((mod) => (
           <motion.div key={mod.id} variants={staggerItem}>
             <Card variant="glass" padding="none" className="overflow-hidden cursor-pointer" onClick={() => setActiveModule(mod)}>
-              <div className="h-2 bg-gradient-to-r from-emerald-400 to-teal-400" />
+              <div className="h-2 bg-gradient-to-r from-green-400 to-emerald-500" />
               <div className="p-5 space-y-3">
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="text-base font-semibold text-white">{mod.title}</h3>
                   <Badge variant={difficultyColor[mod.difficulty] || "default"}>{mod.difficulty}</Badge>
                 </div>
                 <p className="text-sm text-slate-500 line-clamp-2">{mod.description}</p>
-                <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+                <div className="flex items-center justify-between pt-2 border-t border-white/10">
                   <span className="text-xs text-slate-400">{mod.lessons.length} lessons</span>
                   <Badge variant="default">{mod.category}</Badge>
                 </div>

@@ -87,7 +87,7 @@ export default function LeaderboardPage() {
                     </div>
                   </div>
                   <p className="text-sm font-semibold text-slate-200 truncate w-full">{e.name}</p>
-                  <div className="flex items-center gap-1 text-emerald-400 font-bold">
+                  <div className="flex items-center gap-1 text-green-400 font-bold">
                     <Leaf size={14} /> {e.ecoPoints}
                   </div>
                 </div>
@@ -116,14 +116,14 @@ export default function LeaderboardPage() {
                 </span>
                 <Avatar src={entry.profilePicture} name={entry.name} size="sm" />
                 <div className="flex-1 min-w-0">
-                  <p className={`text-sm font-medium truncate ${isCurrentUser ? "text-emerald-400" : "text-slate-200"}`}>
+                  <p className={`text-sm font-medium truncate ${isCurrentUser ? "text-green-400" : "text-slate-200"}`}>
                     {entry.name} {isCurrentUser && <Badge variant="success" size="sm">You</Badge>}
                   </p>
                   {entry.school && (
                     <p className="text-xs text-slate-500 truncate">{entry.school}</p>
                   )}
                 </div>
-                <div className="flex items-center gap-1 text-sm font-semibold text-emerald-400">
+                <div className="flex items-center gap-1 text-sm font-semibold text-green-400">
                   <Leaf size={14} />
                   {entry.ecoPoints}
                 </div>

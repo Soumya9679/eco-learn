@@ -119,12 +119,12 @@ export default function LandingPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#030712" }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--bg-primary)" }}>
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
           className="w-10 h-10 rounded-full border-2 border-transparent"
-          style={{ borderTopColor: "#10b981" }}
+          style={{ borderTopColor: "var(--primary-500)" }}
         />
       </div>
     );
@@ -135,7 +135,7 @@ export default function LandingPage() {
   return (
     <div
       className="min-h-screen relative overflow-hidden"
-      style={{ background: "#030712" }}
+      style={{ background: "var(--bg-primary)" }}
     >
       {/* Animated Background Orbs */}
       <div
@@ -145,7 +145,7 @@ export default function LandingPage() {
           height: "600px",
           left: "-100px",
           top: "-100px",
-          background: "radial-gradient(circle, rgba(16, 185, 129, 0.15), transparent 70%)",
+          background: "radial-gradient(circle, rgba(34, 197, 94, 0.15), transparent 70%)",
           animationDelay: "0s",
         }}
       />
@@ -196,8 +196,8 @@ export default function LandingPage() {
               <div
                 className="w-12 h-12 rounded-2xl flex items-center justify-center text-white"
                 style={{
-                  background: "linear-gradient(135deg, #10b981, #059669)",
-                  boxShadow: "0 0 30px rgba(16, 185, 129, 0.3)",
+                  background: "linear-gradient(135deg, #22c55e, #15803d)",
+                  boxShadow: "0 0 30px rgba(34, 197, 94, 0.3)",
                 }}
               >
                 <Leaf size={28} />
@@ -238,11 +238,11 @@ export default function LandingPage() {
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center"
                     style={{
-                      background: "rgba(16, 185, 129, 0.1)",
-                      border: "1px solid rgba(16, 185, 129, 0.2)",
+                      background: "rgba(34, 197, 94, 0.1)",
+                      border: "1px solid rgba(34, 197, 94, 0.2)",
                     }}
                   >
-                    <stat.icon size={18} style={{ color: "#34d399" }} />
+                    <stat.icon size={18} style={{ color: "#4ade80" }} />
                   </div>
                   <div>
                     <p className="text-lg font-bold text-white">{stat.value}</p>
@@ -295,11 +295,8 @@ export default function LandingPage() {
             className="w-full max-w-md"
           >
             <div
-              className="p-8 rounded-2xl"
+              className="p-8 rounded-2xl glass-card"
               style={{
-                background: "rgba(17, 24, 39, 0.7)",
-                backdropFilter: "blur(24px)",
-                border: "1px solid rgba(255, 255, 255, 0.08)",
                 boxShadow:
                   "0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05)",
               }}
@@ -317,7 +314,7 @@ export default function LandingPage() {
                     <div
                       className="w-8 h-8 rounded-lg flex items-center justify-center"
                       style={{
-                        background: "linear-gradient(135deg, #10b981, #06b6d4)",
+                        background: "linear-gradient(135deg, #22c55e, #06b6d4)",
                       }}
                     >
                       <Sparkles size={16} className="text-white" />
@@ -493,8 +490,8 @@ export default function LandingPage() {
                       whileTap={{ scale: 0.99 }}
                       className="w-full py-3 rounded-xl text-white font-semibold text-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                       style={{
-                        background: "linear-gradient(135deg, #10b981, #059669)",
-                        boxShadow: "0 4px 20px rgba(16, 185, 129, 0.3)",
+                        background: "linear-gradient(135deg, #22c55e, #15803d)",
+                        boxShadow: "0 4px 20px rgba(34, 197, 94, 0.3)",
                       }}
                     >
                       {submitting ? (
@@ -524,7 +521,7 @@ export default function LandingPage() {
                           setError("");
                         }}
                         className="text-sm font-medium cursor-pointer transition-colors"
-                        style={{ color: "#34d399" }}
+                        style={{ color: "#4ade80" }}
                       >
                         Forgot password?
                       </button>
@@ -538,7 +535,7 @@ export default function LandingPage() {
                             setError("");
                           }}
                           className="font-medium cursor-pointer"
-                          style={{ color: "#34d399" }}
+                          style={{ color: "#4ade80" }}
                         >
                           ← Back to login
                         </button>
@@ -551,7 +548,7 @@ export default function LandingPage() {
                               setError("");
                             }}
                             className="font-medium cursor-pointer"
-                            style={{ color: "#34d399" }}
+                            style={{ color: "#4ade80" }}
                           >
                             Sign up
                           </button>
@@ -565,7 +562,7 @@ export default function LandingPage() {
                               setError("");
                             }}
                             className="font-medium cursor-pointer"
-                            style={{ color: "#34d399" }}
+                            style={{ color: "#4ade80" }}
                           >
                             Sign in
                           </button>

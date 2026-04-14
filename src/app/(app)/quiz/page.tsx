@@ -90,7 +90,7 @@ export default function QuizPage() {
               <h2 className="text-2xl font-bold text-white">Quiz Complete!</h2>
               <p className="text-slate-500 mt-1">{activeQuiz.title}</p>
             </div>
-            <div className="text-5xl font-bold text-emerald-400">{score}%</div>
+            <div className="text-5xl font-bold text-green-400">{score}%</div>
             <p className="text-slate-400">{correct}/{total} correct • +{correct * 10} EcoPoints</p>
             <div className="flex gap-3 justify-center">
               <Button variant="secondary" onClick={() => { setActiveQuiz(null); setShowResult(false); }} icon={<X size={16} />}>Close</Button>
@@ -106,7 +106,7 @@ export default function QuizPage() {
                 <p className="text-sm font-medium text-white mb-2">{q.question}</p>
                 <div className="space-y-1">
                   {q.choices.map((c, ci) => (
-                    <div key={ci} className={`px-3 py-2 rounded-lg text-sm ${ci === q.correctAnswer ? "bg-emerald-500/10 text-emerald-400 font-medium" :
+                    <div key={ci} className={`px-3 py-2 rounded-lg text-sm ${ci === q.correctAnswer ? "bg-green-500/10 text-green-400 font-medium" :
                         ci === answers[i] && ci !== q.correctAnswer ? "bg-red-500/10 text-red-400" :
                           "text-slate-400"
                       }`}>
@@ -147,7 +147,7 @@ export default function QuizPage() {
                 whileTap={{ scale: 0.98 }}
                 onClick={() => { const a = [...answers]; a[qIdx] = ci; setAnswers(a); }}
                 className={`w-full text-left px-4 py-3 rounded-xl border transition-all cursor-pointer ${answers[qIdx] === ci
-                    ? "border-emerald-500 bg-emerald-500/10 text-emerald-400 shadow-sm"
+                    ? "border-green-500 bg-green-500/10 text-green-400 shadow-sm"
                     : "border-white/10 hover:border-white/20 text-slate-300 hover:bg-white/5"
                   }`}
               >

@@ -34,13 +34,13 @@ export default function Card({
 
     const variantStyles: Record<string, React.CSSProperties> = {
         default: {
-            background: "rgba(17, 24, 39, 0.6)",
-            border: "1px solid rgba(255, 255, 255, 0.06)",
+            background: "rgba(10, 30, 15, 0.4)",
+            border: "1px solid rgba(255, 255, 255, 0.04)",
             backdropFilter: "blur(12px)",
         },
         glass: {
-            background: "rgba(17, 24, 39, 0.5)",
-            border: "1px solid rgba(255, 255, 255, 0.08)",
+            background: "rgba(10, 30, 15, 0.6)",
+            border: "1px solid rgba(34, 197, 94, 0.12)",
             backdropFilter: "blur(24px)",
             boxShadow: "0 4px 12px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)",
         },

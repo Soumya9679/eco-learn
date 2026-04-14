@@ -86,7 +86,7 @@ export default function ProfilePage() {
 
   const statItems = [
     { label: "Modules", value: user.progress.modulesCompleted, icon: BookOpen, color: "text-blue-400", bg: "rgba(59,130,246,0.1)" },
-    { label: "Challenges", value: user.progress.challengesCompleted, icon: Target, color: "text-emerald-400", bg: "rgba(16,185,129,0.1)" },
+    { label: "Challenges", value: user.progress.challengesCompleted, icon: Target, color: "text-green-400", bg: "rgba(34,197,94,0.1)" },
     { label: "Quizzes", value: user.progress.quizzesCompleted, icon: HelpCircle, color: "text-purple-400", bg: "rgba(147,51,234,0.1)" },
     { label: "Games", value: user.progress.gamesCompleted, icon: Gamepad2, color: "text-orange-400", bg: "rgba(249,115,22,0.1)" },
   ];
@@ -94,13 +94,13 @@ export default function ProfilePage() {
   const ecoStats = [
     { label: "Water Saved", value: `${user.stats.waterSaved}L`, icon: Droplets, color: "text-blue-400" },
     { label: "Waste Diverted", value: `${user.stats.wasteDiverted}kg`, icon: Trash2, color: "text-green-400" },
-    { label: "Trees Planted", value: user.stats.treesPlanted, icon: TreePine, color: "text-emerald-400" },
+    { label: "Trees Planted", value: user.stats.treesPlanted, icon: TreePine, color: "text-green-400" },
   ];
 
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-6">
       {/* Profile Hero */}
-      <motion.div variants={staggerItem} className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-600 p-6 sm:p-8 text-white">
+      <motion.div variants={staggerItem} className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-green-500 via-green-600 to-emerald-700 p-6 sm:p-8 text-white">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3" />
         <div className="flex flex-col sm:flex-row items-center gap-5">
           <div className="relative group">
@@ -119,12 +119,12 @@ export default function ProfilePage() {
           </div>
           <div className="text-center sm:text-left">
             <h1 className="text-2xl font-bold" style={{ fontFamily: "var(--font-jakarta)" }}>{user.name}</h1>
-            <p className="text-emerald-100 text-sm">{user.email}</p>
+            <p className="text-green-100 text-sm">{user.email}</p>
             <div className="flex items-center gap-3 mt-2 justify-center sm:justify-start">
               <Badge variant="success"><Leaf size={12} className="mr-1" />{user.ecoPoints} EcoPoints</Badge>
               <Badge variant="default">{user.role}</Badge>
             </div>
-            {user.school && <p className="text-emerald-100 text-xs mt-1">{user.school}</p>}
+            {user.school && <p className="text-green-100 text-xs mt-1">{user.school}</p>}
           </div>
         </div>
       </motion.div>
@@ -189,7 +189,7 @@ export default function ProfilePage() {
                 {activities.map((act) => (
                   <div key={act.id} className="flex items-center gap-3 px-4 py-3">
                     <div
-                      className="w-8 h-8 rounded-lg flex items-center justify-center text-emerald-400"
+                      className="w-8 h-8 rounded-lg flex items-center justify-center text-green-400"
                       style={{ background: "rgba(16,185,129,0.1)" }}
                     >
                       <Clock size={14} />

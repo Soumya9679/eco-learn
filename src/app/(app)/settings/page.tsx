@@ -131,7 +131,7 @@ export default function SettingsPage() {
                 <motion.span
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="text-sm text-emerald-400 font-medium"
+                  className="text-sm text-green-400 font-medium"
                 >
                   Changes saved successfully
                 </motion.span>

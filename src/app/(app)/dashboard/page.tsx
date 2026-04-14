@@ -68,7 +68,7 @@ export default function DashboardPage() {
 
   const quickActions = [
     { href: "/modules", icon: BookOpen, label: "Modules", color: "from-blue-400 to-blue-600" },
-    { href: "/challenges", icon: Target, label: "Challenges", color: "from-emerald-400 to-emerald-600" },
+    { href: "/challenges", icon: Target, label: "Challenges", color: "from-green-400 to-green-600" },
     { href: "/quiz", icon: HelpCircle, label: "Quizzes", color: "from-purple-400 to-purple-600" },
     { href: "/games", icon: Gamepad2, label: "Games", color: "from-orange-400 to-orange-600" },
     { href: "/forum", icon: MessageSquare, label: "Forum", color: "from-pink-400 to-pink-600" },
@@ -76,7 +76,7 @@ export default function DashboardPage() {
   ];
 
   const stats = [
-    { label: "EcoPoints", value: user.ecoPoints, icon: Leaf, color: "text-emerald-400", bg: "rgba(16,185,129,0.1)" },
+    { label: "EcoPoints", value: user.ecoPoints, icon: Leaf, color: "text-green-400", bg: "rgba(34,197,94,0.1)" },
     { label: "Modules", value: user.progress.modulesCompleted, icon: BookOpen, color: "text-blue-400", bg: "rgba(59,130,246,0.1)" },
     { label: "Challenges", value: user.progress.challengesCompleted, icon: Target, color: "text-purple-400", bg: "rgba(147,51,234,0.1)" },
     { label: "Quizzes", value: user.progress.quizzesCompleted, icon: HelpCircle, color: "text-amber-400", bg: "rgba(245,158,11,0.1)" },
@@ -99,7 +99,7 @@ export default function DashboardPage() {
       {/* Welcome Hero */}
       <motion.div
         variants={staggerItem}
-        className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-600 p-6 sm:p-8 text-white"
+        className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-green-500 via-green-600 to-emerald-700 p-6 sm:p-8 text-white"
       >
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/3 translate-x-1/3" />
         <div className="absolute bottom-0 left-0 w-40 h-40 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/4" />
@@ -107,13 +107,13 @@ export default function DashboardPage() {
           <div className="flex items-center gap-4">
             <Avatar src={user.profilePicture} name={user.name} size="lg" ring />
             <div>
-              <p className="text-emerald-100 text-sm">Welcome back,</p>
+              <p className="text-green-100 text-sm">Welcome back,</p>
               <h1 className="text-2xl sm:text-3xl font-bold" style={{ fontFamily: "var(--font-jakarta)" }}>
                 {user.name}! 🌿
               </h1>
               <div className="flex items-center gap-2 mt-1">
                 <Zap size={16} className="text-amber-300" />
-                <span className="text-emerald-100 text-sm font-medium">
+                <span className="text-green-100 text-sm font-medium">
                   {user.ecoPoints} EcoPoints earned
                 </span>
               </div>
@@ -192,8 +192,8 @@ export default function DashboardPage() {
                 {activities.map((act) => (
                   <div key={act.id} className="flex items-center gap-3 p-4 hover:bg-white/5 transition-colors">
                     <div
-                      className="w-9 h-9 rounded-lg flex items-center justify-center text-emerald-400"
-                      style={{ background: "rgba(16,185,129,0.1)" }}
+                      className="w-9 h-9 rounded-lg flex items-center justify-center text-green-400"
+                      style={{ background: "rgba(34,197,94,0.1)" }}
                     >
                       {activityIcon[act.activityType] || <Zap size={16} />}
                     </div>

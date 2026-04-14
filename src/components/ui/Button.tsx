@@ -17,9 +17,9 @@ interface ButtonProps extends Omit<HTMLMotionProps<"button">, "children"> {
 
 const variantStyles: Record<ButtonVariant, React.CSSProperties> = {
     primary: {
-        background: "linear-gradient(135deg, #10b981, #059669)",
+        background: "linear-gradient(135deg, #22c55e, #15803d)",
         color: "white",
-        boxShadow: "0 4px 20px rgba(16, 185, 129, 0.3)",
+        boxShadow: "0 4px 20px rgba(34, 197, 94, 0.3)",
     },
     secondary: {
         background: "rgba(255, 255, 255, 0.05)",
