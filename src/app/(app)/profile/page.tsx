@@ -154,7 +154,7 @@ export default function ProfilePage() {
       {/* Eco Impact */}
       <motion.div variants={staggerItem}>
         <h2 className="text-lg font-bold text-white mb-3" style={{ fontFamily: "var(--font-jakarta)" }}>Eco Impact</h2>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {ecoStats.map((s) => (
             <Card key={s.label} variant="default" padding="md" className="text-center">
               <s.icon size={24} className={`mx-auto mb-2 ${s.color}`} />

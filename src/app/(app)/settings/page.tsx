@@ -104,7 +104,7 @@ export default function SettingsPage() {
               onChange={(e) => setFormData({ ...formData, school: e.target.value })}
               icon={<School size={18} />}
             />
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Input
                 label="State"
                 value={formData.state}

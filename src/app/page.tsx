@@ -255,7 +255,7 @@ export default function LandingPage() {
             </div>
 
             {/* Feature Cards */}
-            <div className="grid grid-cols-2 gap-3 max-w-lg">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-lg">
               {features.map((f, i) => (
                 <motion.div
                   key={f.title}
