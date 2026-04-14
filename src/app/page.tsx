@@ -226,7 +226,7 @@ export default function LandingPage() {
             </p>
 
             {/* Stats Row */}
-            <div className="flex gap-6 mb-10">
+            <div className="flex flex-wrap gap-4 sm:gap-6 mb-10">
               {stats.map((stat, i) => (
                 <motion.div
                   key={stat.label}
@@ -246,7 +246,7 @@ export default function LandingPage() {
                   </div>
                   <div>
                     <p className="text-lg font-bold text-white">{stat.value}</p>
-                    <p className="text-xs" style={{ color: "#64748b" }}>
+                    <p className="text-xs" style={{ color: "#94a3b8" }}>
                       {stat.label}
                     </p>
                   </div>
@@ -276,7 +276,7 @@ export default function LandingPage() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-white">{f.title}</p>
-                    <p className="text-xs" style={{ color: "#64748b" }}>
+                    <p className="text-xs" style={{ color: "#94a3b8" }}>
                       {f.desc}
                     </p>
                   </div>
@@ -361,11 +361,7 @@ export default function LandingPage() {
                                 setFormData({ ...formData, name: e.target.value })
                               }
                               required
-                              className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
-                              style={{
-                                background: "rgba(255, 255, 255, 0.05)",
-                                border: "1px solid rgba(255, 255, 255, 0.08)",
-                              }}
+                              className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500/50 bg-white/5 border border-white/10"
                             />
                           </div>
                         </div>
@@ -386,11 +382,7 @@ export default function LandingPage() {
                               onChange={(e) =>
                                 setFormData({ ...formData, mobile: e.target.value })
                               }
-                              className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
-                              style={{
-                                background: "rgba(255, 255, 255, 0.05)",
-                                border: "1px solid rgba(255, 255, 255, 0.08)",
-                              }}
+                              className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500/50 bg-white/5 border border-white/10"
                             />
                           </div>
                         </div>
@@ -415,11 +407,7 @@ export default function LandingPage() {
                             setFormData({ ...formData, email: e.target.value })
                           }
                           required
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
-                          style={{
-                            background: "rgba(255, 255, 255, 0.05)",
-                            border: "1px solid rgba(255, 255, 255, 0.08)",
-                          }}
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500/50 bg-white/5 border border-white/10"
                         />
                       </div>
                     </div>
@@ -443,11 +431,7 @@ export default function LandingPage() {
                               setFormData({ ...formData, password: e.target.value })
                             }
                             required
-                            className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
-                            style={{
-                              background: "rgba(255, 255, 255, 0.05)",
-                              border: "1px solid rgba(255, 255, 255, 0.08)",
-                            }}
+                            className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500/50 bg-white/5 border border-white/10"
                           />
                         </div>
                       </div>
@@ -474,9 +458,9 @@ export default function LandingPage() {
                         animate={{ opacity: 1, y: 0 }}
                         className="text-sm px-3 py-2 rounded-lg"
                         style={{
-                          color: "#34d399",
-                          background: "rgba(16, 185, 129, 0.1)",
-                          border: "1px solid rgba(16, 185, 129, 0.2)",
+                          color: "#4ade80",
+                          background: "rgba(34, 197, 94, 0.1)",
+                          border: "1px solid rgba(34, 197, 94, 0.2)",
                         }}
                       >
                         {message}
